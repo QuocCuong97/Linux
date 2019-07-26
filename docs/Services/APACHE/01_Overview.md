@@ -25,23 +25,14 @@
     # yum install -y httpd
     ```
     - Mặc định khi cài qua `yum` , trên CentOS `6` sẽ cài Apache `2.2` , còn trên CentOS `7` sẽ cài `2.4` .
-### **3.2) Cài đặt Apache bằng source**
-- **B1 :** Download file về từ Internet và lưu vào thư mục `/var/tmp`
+### **3.2) Cài đặt các gói thư viện bổ sung**
+- **APR `1.7.0`**
     ```
-    # cd /var/tmp
-    # wget https://archive.apache.org/dist/httpd/httpd-2.4.35.tar.gz
+    # wget https://www.apache.org/dist/apr/apr-1.7.0.tar.gz
     ```
-    > Có thể thay `2.4.35` bằng số khác để tải về các phiên bản khác
-- **B2 :** Giải nén file vừa tải về :
+- **APR-util `1.6.1`**
     ```
-    # tar -zxvf httpd-2.4.35.tar.gz
-    ```
-- **B3 :** Biên dịch file cài đặt :
-    ```
-    # cd httpd-2.4.35/
-    # ./configure
-    # make
-    # make install
+    # wget https://www.apache.org/dist/apr/apr-util-1.6.1.tar.gz
     ```
 ### **3.3) Gỡ cài đặt Apache**
 ```
@@ -53,7 +44,50 @@
 ```
 <img src=https://i.imgur.com/uDsq2tw.png>
 
-## **4) Các file/thư mục quan trọng của Apache**
+## **4) Cài đặt Apache từ Source**
+- **B1 :** Download source **`httpd`** về từ Internet và lưu vào thư mục `/var/tmp`
+    ```
+    # cd /var/tmp
+    # wget https://archive.apache.org/dist/httpd/httpd-2.4.35.tar.gz
+    ```
+    > Có thể thay `2.4.35` bằng số khác để tải về các phiên bản khác
+- **B2 :** Cài đặt các gói thư viện bổ sung
+    - **APR `1.7.0`**
+        ```
+        # wget https://www.apache.org/dist/apr/apr-1.7.0.tar.gz
+        ```
+    - **APR-util `1.6.1`**
+        ```
+        # wget https://www.apache.org/dist/apr/apr-util-1.6.1.tar.gz
+        ```
+    - **PCRE `8.4.3`** ( **`8.21`** trở xuống cho **Apache `2.2`**)
+        ```
+        # wget -O pcre-8.43.tar.gz https://sourceforge.net/projects/pcre/files/pcre/8.43/pcre-8.43.tar.gz/download
+        ```
+- **B3 :** Giải nén file vừa tải về :
+    ```
+    # tar -zxvf httpd-2.4.35.tar.gz
+    # tar -zxvf apr-1.7.0.tar.gz
+    # tar -zxvf apr-util-1.6.1.tar.gz
+    # tar -zxvf pcre-8.43.tar.gz
+    ```
+- **B4 :** Cài đặt thư viện **`pcre`** ở thư mục `/usr/lib`
+    ```
+    # cd pcre-8.43
+    # ./configure --prefix=/usr/lib
+    # make && make install
+    ```
+- **B5 :** Di chuyển 2 thư mục `arp-1.7.0` và `arp-util-1.6.1` vào thư mục con `./srclib` của source `apache` :
+    ```
+    # cp -rp apr-1.7.0 httpd-2.4.35/srclib/apr
+    # cp -rp apr-util-1.6.1 httpd-2.4.35/srclib/apr-util
+- **B5 :** Biên dịch file cài đặt :
+    ```
+    # cd httpd-2.4.35/
+    # ./configure
+    # make && make install
+    ```
+## **5) Các file/thư mục quan trọng của Apache**
 - `/var/html/` : là thư mục gốc chứa các file `htm` , `html` , `images` .... tạo thành nội dung cho trang web
 - `/etc/httpd/` : thư mục chứa tất cả các file cấu hình cho **Apache** :
     - `/etc/httpd/conf/httpd.conf` : file cấu hình chính của dịch vụ Apache
