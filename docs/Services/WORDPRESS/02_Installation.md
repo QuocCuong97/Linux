@@ -1,8 +1,47 @@
 # Cài đặt WordPress
 - **B1 :** Tạo mới cơ sở dữ liệu **MariaDB** cho **WordPress** :
-- **B2 :** Cài đặt module `php-gd` :
+    - Đăng nhập vào **MariaDB ( MySQL )** với quyền `root` :
+        ```
+        # mysql -u root -p
+        Enter password:
+        ```
+    - Đi vào giao diện cấu hình **MariaDB** :
+
+        <img src=https://i.imgur.com/AaVEx47.png>
+    
+    - Tạo 1 database mới tên "`wordpress`" :
+        ```
+        CREATE DATABASE wordpress;
+        ```
+
+        <img src=https://i.imgur.com/CerbFGP.png>
+
+    - Tạo user và password để quản trị database :
+        ```
+        CREATE USER wordpressuser@localhost IDENTIFIED BY 'p@ssw0rd';
+        ```
+        <img src=https://i.imgur.com/gvdmcdS.png>
+
+    - Cấp quyền quản trị database "`wordpress`" cho user "`wordpressuser`" :
+        ```
+        GRANT ALL PRIVILEGES ON wordpress.* TO wordpressuser@localhost IDENTIFIED BY 'p@ssw0rd';
+        ```
+        <img src=https://i.imgur.com/UhBS3Yy.png>
+
+    - Flush ( refresh ) lại danh sách quyền trong **MariaDB** :
+        ```
+        FLUSH PRIVILEGES;
+        ```
+        <img src=https://i.imgur.com/OZDc21D.png>
+
+    - Thoát khỏi **MariaDB** :
+        ```
+        exit
+        ```
+        <img src=https://i.imgur.com/7opnTfA.png>
+- **B2 :** Cài đặt các module cần thiết :
     ```
-    # yum install -y php-gd
+    # yum install -y php-gd php-mysql
     ```
 - **B3 :** Khởi động lại dịch vụ `httpd` để nhận module mới :
     ```
@@ -41,4 +80,32 @@
     ```
     # vi wp-config.php
     ```
-    https://www.digitalocean.com/community/tutorials/how-to-install-wordpress-on-centos-7
+    - Kéo xuống dòng `21` và chỉnh sửa thông tin về **MariaDB** đã cấu hình ở trên :
+
+        <img src=https://i.imgur.com/huOe5aI.png>
+
+- **B11 :** Hoàn thành việc cài đặt **WordPress** thông qua trình duyệt :
+    ```
+    http://<web_server_IP>
+    ```
+    - Trang khởi động hiện ra , chọn ngôn ngữ > ***Continue*** :
+
+        <img src=https://i.imgur.com/Bgjmmsj.png>
+
+    - Nhập thông tin khởi tạo > ***Install WordPress*** :
+
+        <img src=https://i.imgur.com/a7A4fAO.png>
+
+    - Cài đặt thành công > ***Log in*** :
+
+        <img src=https://i.imgur.com/NcqpqaI.png>
+
+    - Nhập `username` và `password` vừa tạo > ***Log in***
+
+        <img src=https://i.imgur.com/s6RuicS.png>
+
+    - Trang quản trị **WordPress** ( *dashboard* ) :
+
+        <img src=https://i.imgur.com/z2ghATI.png>
+
+> Nội dung trang **WordPress** khi người dùng khác nhập IP lên trình duyệt :<br><br><img src=https://i.imgur.com/8K5hBm3.png>
