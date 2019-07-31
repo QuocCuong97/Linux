@@ -181,6 +181,7 @@
     <img src=https://i.imgur.com/hPukCpT.png>
 
     ```
-    # sed -i '/#/d' /etc/httpd/conf/httpd.conf
+    # sed -i '/#/d' /etc/httpd/conf/httpd.conf   (Xóa dòng comment)
+    # sed -i '/^$/d' /etc/httpd/conf/httpd.conf  (Xóa dòng trống)
     ```
-    <img src=https://i.imgur.com/8auTGSV.png>
+    <img src=https://i.imgur.com/55bjjra.png>
