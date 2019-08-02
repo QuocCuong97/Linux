@@ -49,43 +49,45 @@
     ```
     # cd /var/tmp
     # wget https://archive.apache.org/dist/httpd/httpd-2.4.35.tar.gz
+    # tar -zxvf httpd-2.4.35.tar.gz
     ```
     > Có thể thay `2.4.35` bằng số khác để tải về các phiên bản khác
 - **B2 :** Cài đặt các gói thư viện bổ sung
     - **APR `1.7.0`**
         ```
         # wget https://www.apache.org/dist/apr/apr-1.7.0.tar.gz
+        # cd apr-1.7.0/
+        # ./configure
+        # make && make install
+        ```
+    - **Expat-devel `2.1.0`**
+        ```
+        # wget http://mirror.centos.org/centos/7/os/x86_64/Packages/expat-devel-2.1.0-10.el7_3.x86_64.rpm
+        # rpm -ivh expat-devel-2.1.0-10.el7_3.x86_64.rpm
         ```
     - **APR-util `1.6.1`**
         ```
         # wget https://www.apache.org/dist/apr/apr-util-1.6.1.tar.gz
+        # cd apr-util-1.6.1/
+        # ./configure --with-apr=/usr/local/apr/bin/apr-1-config
+        # make && make install
         ```
     - **PCRE `8.4.3`** ( **`8.21`** trở xuống cho **Apache `2.2`**)
         ```
         # wget -O pcre-8.43.tar.gz https://sourceforge.net/projects/pcre/files/pcre/8.43/pcre-8.43.tar.gz/download
+        # cd pcre-8.43/
+        # ./configure
+        # make && make install
         ```
-- **B3 :** Giải nén file vừa tải về :
-    ```
-    # tar -zxvf httpd-2.4.35.tar.gz
-    # tar -zxvf apr-1.7.0.tar.gz
-    # tar -zxvf apr-util-1.6.1.tar.gz
-    # tar -zxvf pcre-8.43.tar.gz
-    ```
-- **B4 :** Cài đặt thư viện **`pcre`** ở thư mục `/usr/lib`
-    ```
-    # cd pcre-8.43
-    # ./configure --prefix=/usr/lib
-    # make && make install
-    ```
-- **B5 :** Di chuyển 2 thư mục `arp-1.7.0` và `arp-util-1.6.1` vào thư mục con `./srclib` của source `apache` :
-    ```
-    # cp -rp apr-1.7.0 httpd-2.4.35/srclib/apr
-    # cp -rp apr-util-1.6.1 httpd-2.4.35/srclib/apr-util
-- **B5 :** Biên dịch file cài đặt :
+- **B3 :** Biên dịch file `httpd` và cài đặt :
     ```
     # cd httpd-2.4.35/
     # ./configure
     # make && make install
+    ```
+- **B4 :** Khởi động dịch vụ `httpd` :
+    ```
+    # systemctl start httpd
     ```
 ## **5) Các file/thư mục quan trọng của Apache**
 - `/var/html/` : là thư mục gốc chứa các file `htm` , `html` , `images` .... tạo thành nội dung cho trang web
