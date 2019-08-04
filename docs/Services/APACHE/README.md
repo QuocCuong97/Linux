@@ -10,5 +10,4 @@
 ### 9) [Cấu hình SSL/TLS](https://github.com/QuocCuong97/Linux/blob/master/docs/Services/APACHE/09_SSL.md)
 ### 10) [Cấu hình xác thực với Kerberos](https://github.com/QuocCuong97/Linux/blob/master/docs/Services/APACHE/10_Kerberos_Authentication.md)
 ### 11) [Apache MPM](https://github.com/QuocCuong97/Linux/blob/master/docs/Services/APACHE/11_MPM_Apache.md)
-### 12) [Cài đặt LAMP ( Linux , Apache , MariaDB , PHP )](https://github.com/QuocCuong97/Linux/blob/master/docs/Services/APACHE/12_LAMP.md)
-### 13) [Cài đặt WordPress](https://github.com/QuocCuong97/Linux/blob/master/docs/Services/APACHE/13_Wordpress.md)
+### 12) [Cài đặt LAMP Stack ( `Linux` , `Apache` , `MariaDB` , `PHP` )](https://github.com/QuocCuong97/Linux/blob/master/docs/Services/APACHE/12_LAMP.md)

@@ -95,14 +95,3 @@
         <img src=https://i.imgur.com/SLIvwSW.png>
 
 ## **4) Cấu hình tự động chuyển hướng từ HTTP -> HTTPS**
-- **B1 :** Chỉnh sửa file `non-ssl.conf`
-    ```
-    # vi /etc/httpd/conf.d/non-ssl.conf
-    ```
-    - Thêm vào nội dung sau :
-        ```
-        <VirtualHost *:80>
-            ServerName 192.168.5.30
-            Redirect "http://192.168.5.30/" "https://192.168.5.30/"
-        </VirtualHost>
-        ```
