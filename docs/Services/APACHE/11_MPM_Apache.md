@@ -15,6 +15,9 @@
 ### **1.1) MPM prefork**
 - Đây là **MPM** mặc định khi cài đặt **Apache** . 
 - Sử dụng nhiều child process với một thread. Tại một thời điểm thì mỗi process đó sẽ chỉ xử lý chỉ một request .
+
+    <img src=https://i.imgur.com/kKiMa1W.png>
+
 - Do cách hoạt động đó - mỗi yêu cầu được xử lý trên một tiến trình riêng - độc lập, mà Apache trên server cần nhiều tài nguyên hơn các MPM khác. Tuy nhiên nó vẫn được sử dụng, có thể vì yêu cầu an toàn nào đó (các thread được cách ly riêng biệt trên nhưng process riêng) hoặc bắt buộc Apache phải sử dụng loại thư viện non-thread safe (không đa luồng) như mod_php mà MPM prefork vẫn được dùng.
 - Khi sử dụng MPM prefork thì những thiết lập Apache ( trong `httpd.conf` ) sau nên xem xét
     ```
@@ -29,6 +32,9 @@
 - Tóm lại chỉ nên sử dụng MPM này nếu có yêu cầu an toàn đặc biệt hoặc cần dùng mod_php , ví loại này tốn nhiều tài nguyên, phục vụ lượng truy cập lớn kém .
 ### **1.2) MPM worker**
 - Khác với **MPM prefork** , **MPM worker** sử dụng nhiều **child process** với nhiều **thread** . Và mỗi **thread** sẽ xử lý một request tại một thời điểm .
+
+    <img src=https://i.imgur.com/tVcjyfa.png>
+
 - Thiết lập quan trong của MPM worker đó là ThreadsPerChild thiết lập số luồng (thread) được tạo ra cho mỗi tiến trình (process), MaxRequestWorkers tổng số luồng được kích hoạt trong các process
 - Tham khảo thiết lập sau khi sử dụng MPM worker từ http://httpd.apache.org. Bạn điều chỉnh sao cho tối ưu với tài nguyên server của mình
     ```
@@ -42,6 +48,9 @@
 ### **1.3) MPM event**
 - MPM event thực chất dựa trên MPM worker, nó được thiết kế nhằm cho phép nhiều yêu cầu được phục vụ cùng một lúc hơn bằng cách: chuyển các process đã hoàn thành cho một request sang ngay chế độ chờ request mới mà vẫn sử dụng socket cũ, có nghĩa là tình trạng keep-alive .
 - Sử dụng mô hình event-based, cho phép truy cập và xử lý các yêu cầu bất đồng bộ (asynchronous) .
+
+    <img src=https://i.imgur.com/hR3l72q.png>
+    <img src=https://i.imgur.com/fHQqrHl.png>
 - Event MPM dựa trên mô hình MPM worker, nên nó cũng gần giống với mpm worker .
 - Nó tạo ra nhiều child process, với nhiều thread. Mỗi parent process chịu trách nhiệm chạy các child process. Mỗi child process tạo ra một số lượng thread cố định (Số lượng thread được định nghĩa trong chỉ thị “ThreadsPerChild“) .
 - Để biết được child process được sinh ra ta sử dụng :
