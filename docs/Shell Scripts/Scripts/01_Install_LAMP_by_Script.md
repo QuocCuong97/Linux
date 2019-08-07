@@ -53,7 +53,7 @@
         ```
 - **B2 :** Cấp quyền thực thi cho script :
     ```
-    # cdmod 755 ~/Desktop/lamp.sh
+    # chmod 755 ~/Desktop/lamp.sh
     ```
 - **B3 :** Chạy script :
     ```

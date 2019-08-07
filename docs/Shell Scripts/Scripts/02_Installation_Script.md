@@ -58,7 +58,7 @@
         ```
 - **B2 :** Cấp quyền thực thi cho script :
     ```
-    # cdmod 755 ~/Desktop/wordpress.sh
+    # chmod 755 ~/Desktop/wordpress.sh
     ```
 - **B3 :** Chạy script :
     ```
