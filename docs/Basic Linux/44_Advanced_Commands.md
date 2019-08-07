@@ -30,7 +30,7 @@
         Dong thu BA cua doan van thu BA cua bai van thu BA
         #Dong cuoi cung cua tac pham thu Mot
         ```
-- **TH2 :** **Tìm kiếm và thay thế ( *phân biệt chữ hoa và chữ thường* )** : tìm kiếm từ `mot` và thay thế bằng từ `MOT` :
+- **TH2 :** **Tìm kiếm và thay thế ( *không phân biệt chữ hoa và chữ thường* )** : tìm kiếm từ `mot` và thay thế bằng từ `MOT` :
     ```
     # sed 's/mot/MOT/i' text.txt
     ```
