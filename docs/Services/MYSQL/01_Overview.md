@@ -1,5 +1,5 @@
 # MySQL             
-## **1) Tổng quan** <img src=https://i.imgur.com/8E7j8uM.png align=right width=45%>
+## **1) Tổng quan** <img src=https://i.imgur.com/8E7j8uM.png align=right width=25%>
 - **MySQL** là một hệ thống quản trị cơ sở dữ liệu mã nguồn mở ( ***Relational Database Management System  - RDBMS*** ) hoạt động theo mô hình client-server . **RDBMS** là một phần mềm hay dịch vụ dùng để tạo và quản lý các cơ sở dữ liệu ( database ) theo hình thức quản lý các mối liên hệ giữa chúng .
 - Lịch sử hình thành :
     - Công ty Thuy Điển **MySQL AB** được thành lập bởi `David Axmark` , `Allan Larsson` và `Michael "Monty" Widenius` phát triển **MySQL** vào năm `1994` . 
