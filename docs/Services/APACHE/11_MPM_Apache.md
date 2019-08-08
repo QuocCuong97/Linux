@@ -1,5 +1,7 @@
 # Apache MPM
-## **1) Khái niệm**
+## **1) Khái niệm cơ bản về Process và Thread**
+- **Multi-Process** 
+## **2) MPM Apache** 
 - **MPM - Multi Process Module** là 1 cơ chế quyết định hoạt động của Web Server Apache . Cơ chế này sẽ quyết định cách thức tiếp nhận và xử lý các kết nối request từ người dùng .
 - **MPM** là module trong **Apache** vì vậy mà ta có thể enable/disable trong cấu hình module của **Apache** . **Apache** cũng yêu cầu và chỉ có thể sử dụng duy nhất 01 trong các **module MPM** cho cấu hình .
 - **Apache** hỗ trợ 3 cơ chế **MPM** tại thời điểm hiện tại , tùy nhu cầu sử dụng :

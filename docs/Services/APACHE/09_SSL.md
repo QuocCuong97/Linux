@@ -11,7 +11,19 @@
     <img src=https://i.imgur.com/WbYzQRb.png>
     <img src=https://i.imgur.com/YQ8Yzv2.png>
 
-## **2) Hoạt động của SSL/TLS**
+## **2) Các loại chứng chỉ SSL**
+### **2.1) Commercial Certificates**
+#### **2.1.1) Organization Validation (OV) : GlobalSign OrganizationSSL**
+#### **2.1.2) Domain Validation (DV) : GlobalSign DomainSSL**
+#### **2.1.3) Extended Validation (EV) : GlobalSign ExtendedSSL**
+### **2.2) Self-signed Certificate**
+### **2.3) Các khái niệm bổ sung**
+#### **2.3.1) Chứng chỉ Wildcard**
+#### **2.3.2) Danh sách Thu hồi Chứng chỉ (Certificate Revocation List – CRL)**
+#### **2.3.3) Giao thức trạng thái Chứng chỉ Trực tuyến (Online Certificate Status Protocol - OCSP)**
+#### **2.3.4) Root CA**
+
+## **3) Hoạt động của SSL/TLS**
 - **Chứng chỉ SSL** có 1 cặp key-pair : 1 **public key** và 1 **private key** . Chúng hoạt động cùng nhau để tạo ra kết nối mã hóa .
 - **Chứng chỉ SSL** cũng bao gồm 1 phần gọi là "**subject**" , dùng để nhận biết chủ sở hữu của webste/certificate .
 - Để có được **chứng chỉ SSL** , cần phải tạo 1 **CSR - Certificate Signing Request** trên Server . Quá trình này sẽ tạo ra **private key** và **public key** trên Server . File **CSR** được gửi đến **nhà phát hành chứng chỉ SSL** ( hay còn gọi là **Certificate Authority - CA** ) chứa trong đó **public key** . Bên **CA** sẽ sử dụng file **CSR** để tạo ra 1 cấu trúc dữ liệu match với **private key** . Tuy nhiên , bên **CA** sẽ không thể thấy được **private key**
@@ -21,12 +33,9 @@
 - Khi 1 chứng chỉ **SSL** được phát hành bởi **CA** tới 1 tổ chức và **domain/website** của công ty đã kiểm nghiệm 1 bên thứ 3 ( **trusted third party**  đã xác thực cho tổ chức . Khi trình duyệt trust **CA** , trình duyệt sẽ trust rằng công ty đã được định danh . Trình duyệt sẽ cho user biết "*website is secure*" và user có thể lướt web an toàn
 - Các bước tạo chứng chỉ :
 
-    <img src=https://i.imgur.com/EsMFmWD.png>
+    <img src=https://i.imgur.com/yUa7HPw.png>
 
-    - 1 . Trình duyệt kết nối tới Web Server ( website ) . Trình duyệt sẽ yêu cầu server tự định danh chính nó .
-    - 2 . Server gửi 1 bản copy **chứng chỉ SSL** của nó , trong đó bao gồm **public key** .
-    - 3 . Trình duyệt sẽ kiểm 
-## **3) Cấu hình HTTPS - SSL - TLS**
+## **4) Cấu hình HTTPS - SSL - TLS**
 - **B1 :** Cài đặt module `mod_ssl` và các gói `openssl` :
     ```
     # yum install -y mod_ssl openssl
@@ -95,3 +104,4 @@
         <img src=https://i.imgur.com/SLIvwSW.png>
 
 ## **4) Cấu hình tự động chuyển hướng từ HTTP -> HTTPS**
+
