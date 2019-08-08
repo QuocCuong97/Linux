@@ -2,7 +2,7 @@
 - **B1 :** Download script :
     ```
     # cd ~/Desktop
-    # wget https://github.com/QuocCuong97/Public_Zone/blob/master/wordpress.sh
+    # wget https://raw.githubusercontent.com/QuocCuong97/Public_Zone/master/wordpress.sh
     ```
     - Nội dung script :
         ```

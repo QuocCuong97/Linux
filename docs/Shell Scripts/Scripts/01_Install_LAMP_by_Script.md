@@ -2,7 +2,7 @@
 - **B1 :** Download script :
     ```
     # cd ~/Desktop
-    # wget https://github.com/QuocCuong97/Public_Zone/blob/master/lamp.sh
+    # wget https://raw.githubusercontent.com/QuocCuong97/Public_Zone/master/lamp.sh
     ```
     - Nội dung script :
         ```
