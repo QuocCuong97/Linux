@@ -106,17 +106,17 @@
     ```
     # mariadbd -V
     ```
-    <img src=https://i.imgur.com/rdb96OW.png>
+    <img src=https://i.imgur.com/rUa3ajP.png>
 - **B6 :** Kiểm tra xem tiến trình **MariaDB** có chạy không :
     ```
     # ps aux | grep -v "grep" | grep mysql
     ```
-    <img src=https://i.imgur.com/6U2yxRR.png>
+    <img src=https://i.imgur.com/TRMOBf5.png>
 - **B7 :** Kiểm tra xem dịch vụ có listen port `3306` không :
     ```
     # ss -lntp | grep "3306"
     ```
-    <img src=https://i.imgur.com/CTpG5WZ.png>
+    <img src=https://i.imgur.com/wAt4C9E.png>
 ### **3.3) Cài đặt PHP ( `7.3` )**
 - **B1 :** Cài đặt repo **EPEL** :
     ```

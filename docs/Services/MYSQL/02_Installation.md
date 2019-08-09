@@ -40,3 +40,42 @@
     # ss -lntp | grep "3306"
     ```
     <img src=https://i.imgur.com/wAt4C9E.png>
+
+## **2) Thiết lập cấu hình bảo mật cơ bản cho dịch vụ MariaDB**
+- Mục tiêu :
+    - Thay đổi mật khẩu `root`
+    - Xóa bỏ user `anonymous`
+    - Tắt tính năng cho phép `root` login từ ngoài hệ thống
+    - Xóa bỏ database "`test`" và quyền truy cập nó
+    - Reload lại các table liên quan đến quyền hạn
+- Thực hiện lệnh :
+    ```
+    # mysql_secure_installation
+    ```
+    - Chương trình yêu cầu nhập password user `root` :
+
+        <img src=https://i.imgur.com/BvzJEym.png>
+
+    - Tại tùy chọn sử dụng `unix_socket authentication` , chọn `n` :
+
+        <img src=https://i.imgur.com/FFPZSj8.png>
+
+    - Tại tùy `Change the root password` , chọn `Y` để đổi mật khẩu user `root` :
+
+        <img src=https://i.imgur.com/5QykvAh.png>
+
+    - Tại tùy chọn `Remove anonymous user` , chọn `Y` :
+
+        <img src=https://i.imgur.com/lvgtL7q.png>
+
+    - Tại tùy chọn `Disallow root login remotely` , chọn `Y` để không cho phép user `root` login từ xa vào dịch vụ :
+
+        <img src=https://i.imgur.com/psBTeh5.png>
+
+    - Tại tùy chọn `Remove test database and access to it` , chọn `Y` để xóa bỏ database "`test`" và quyền truy cập nó :
+
+        <img src=https://i.imgur.com/3jXr0kh.png>
+
+    - Tại tùy chọn `Reload privilege tables now` , chọn `Y` để reload lại các table liên quan đến quyền hạn :
+
+        <img src=https://i.imgur.com/SGCycgo.png>
