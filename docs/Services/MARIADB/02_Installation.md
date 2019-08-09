@@ -48,7 +48,7 @@
     - Tắt tính năng cho phép `root` login từ ngoài hệ thống
     - Xóa bỏ database "`test`" và quyền truy cập nó
     - Reload lại các table liên quan đến quyền hạn
-- Thực hiện lệnh :
+- **B1 :** Thực hiện lệnh :
     ```
     # mysql_secure_installation
     ```
@@ -79,3 +79,9 @@
     - Tại tùy chọn `Reload privilege tables now` , chọn `Y` để reload lại các table liên quan đến quyền hạn :
 
         <img src=https://i.imgur.com/SGCycgo.png>
+
+- **B2 :** Khởi động lại dịch vụ `mariadb` :
+    ```
+    # systemctl restart mariadb.service
+    ```
+    
