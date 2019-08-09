@@ -76,7 +76,7 @@
     http://<ip_web_server>
     ```
     <img src=https://i.imgur.com/CJNjqC2.png>
-### **3.2) Cài đặt MariaDB ( `10.4.6` )**
+### **3.2) Cài đặt MariaDB ( `10.4.7` )**
 - **B1 :** Khởi tạo thông tin repository **MariaDB** để chương trình `yum` biết nguồn tải cài đặt **MariaDB** :
     ```
     # vi /etc/yum.repos.d/MariaDB.repo
@@ -85,7 +85,7 @@
         ```
         [mariadb]
         name = MariaDB
-        baseurl = http://yum.mariadb.org/10.4.6/centos7-amd64
+        baseurl = http://yum.mariadb.org/10.4.7/centos7-amd64
         gpgkey=http://yum.mariadb.org/RPM-GPG-KEY-MariaDB
         gpgcheck=1
         ```
@@ -106,7 +106,7 @@
     ```
     # mariadbd -V
     ```
-    <img src=https://i.imgur.com/rbBVlrK.png>
+    <img src=https://i.imgur.com/rdb96OW.png>
 - **B6 :** Kiểm tra xem tiến trình **MariaDB** có chạy không :
     ```
     # ps aux | grep -v "grep" | grep mysql
