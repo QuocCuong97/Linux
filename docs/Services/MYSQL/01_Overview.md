@@ -5,8 +5,11 @@
     - Công ty Thuy Điển **MySQL AB** được thành lập bởi `David Axmark` , `Allan Larsson` và `Michael "Monty" Widenius` phát triển **MySQL** vào năm `1994` . 
     - Công ty công nghệ Mỹ **Sun Microsystem** sau đó giữ quyền sở hữu **MySQL** sau khi mua lại **MySQL** vào năm `2008`  
     - Năm `2010` , gã khổng lồ **Oracle** mua **Sun Microsystems** và **MySQL** thuộc quyền sở hữu của **Oracle** từ đó .
-- **MySQL** là 1 phần mềm mã nguồn mở miễn phí , sử dụng giấy phép **GNU Genenal Public License - GPL** .
-- Trải qua nhiều phiên bản , phiên bản ổn định hiện tại : `8.0.17` ( phát hành `22-7-2019` )
+- **MySQL** là 1 phần mềm mã nguồn mở miễn phí , sử dụng giấy phép **GNU Genenal Public License - GPLv2** .
+- Trang chủ : https://www.mysql.com/
+- Source Code : https://github.com/mysql/mysql-server
+- Phiên bản đầu tiên phát hành ngày `23-5-1995`
+- Phiên bản mới nhất hiện tại : `8.0.17` ( phát hành `22-7-2019` )
 - Có 2 phiên bản **MySQL** :
     - **MySQL Cummunity** : phiên bản miễn phí
     - **MySQL Enterprise Edition** : phiên bản thương mại
