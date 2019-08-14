@@ -114,3 +114,7 @@
 - https://www.hostinger.vn/huong-dan/apache-la-gi-giai-thich-cho-nguoi-moi-bat-dau-hieu-ve-apache-web-server/
 - https://en.wikipedia.org/wiki/Apache_HTTP_Server
 - https://cuongquach.com/compile-apache-22-24-tren-centos-6-7.html
+
+
+
+## https://www.linode.com/docs/web-servers/apache-tips-and-tricks/apache-configuration-basics/

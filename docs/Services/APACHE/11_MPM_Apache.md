@@ -1,4 +1,5 @@
 # Apache MPM
+https://www.linode.com/docs/web-servers/apache-tips-and-tricks/tuning-your-apache-server/
 ## **1) Khái niệm cơ bản về Process và Thread**
 - **Multi-Process** 
 ## **2) MPM Apache** 

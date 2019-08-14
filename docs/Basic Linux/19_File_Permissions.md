@@ -138,7 +138,7 @@
     ```
     # chmod [4]750 [file]   ( thêm 4 vào đầu file_permisson )
     ```
-    > ***Chú ý :** Nếu file chưa có quyền thực thi , **SUID** sẽ là chữ `S` . Để kí tự `S` thành `s` phải cấp quyền **execute** cho nó.*<br>```# chmod u+x file1<br>```
+    > ***Chú ý :** Nếu file chưa có quyền thực thi , **SUID** sẽ là chữ `S` . Để kí tự `S` thành `s` phải cấp quyền **execute** cho nó.*<br>```# chmod u+x file1```
 ## **2) SGID**
 - **SGID** ( hay **Set group ID** ) , cũng tương tự như **SUID** , được sử dụng trên các file thực thi ( ***excutable files*** ) để cho phép việc thực thi được thực hiện dưới owner group của file thay vì thực hiện như group đang login trong hệ thống .
 - **SGID** cũng có thể được sử dụng để thay đổi ownership group của file được tạo hoặc di chuyển nó đến 1 thư mục mà owner group của nó sẽ là owner group của thư mục chuyển đến thay vì là group mà nó được tạo ra .
