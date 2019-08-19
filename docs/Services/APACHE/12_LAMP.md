@@ -141,7 +141,7 @@
     ```
 - **B5 :** Tiến hành cài đặt **PHP `7.3`** cùng 1 số module hỗ trợ :
     ```
-    # yum install php
+    # yum -y install php
     ```
 - **B6 :** Kiểm tra phiên bản **PHP** trên CentOS :
     ```
