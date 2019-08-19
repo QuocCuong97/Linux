@@ -6,7 +6,7 @@
 
 > ### **Trên Database Server**
 - **B1 :** Cài đặt **MariaDB** :
-    [*Hướng dẫn cài đặt dịch vụ **MariaDB***]()
+    [*Hướng dẫn cài đặt dịch vụ **MariaDB***](https://github.com/QuocCuong97/Linux/blob/master/docs/Services/MARIADB-MYSQL/04_Install_MariaDB.md)
 - **B2 :** Truy cập trình quản lý **MariaDB** :
     ```
     # mysql -u root
