@@ -56,7 +56,26 @@
         Hello
         Tuan
         ```
-## **3) Các biến đặc biệt**
+## **3) Phân biệt biến Global và biến Local** :
+- ***Biến Global*** là biến có thể được truy cập ở bất cứ đâu trên script .
+- ***Biến Local*** là biến chỉ truy cập được ở vùng ( ***scope*** ) mà nó được tạo ra , ví dụ như trong hàm ( ***function*** ) .
+- **VD :** 
+    ```bash
+    #!/bin/bash
+    #Define bash global variable
+    
+    GLOBAL_VAR="global variable value"
+    
+    function hello {
+        #Define bash local variable
+        local LOCAL_VAR="local variable value"
+        echo $LOCAL_VAR
+        echo $GLOBAL_VAR    ## This will accessible here
+    }
+    echo $LOCAL_VAR     ## This will not accessible here
+    echo $GLOBAL_VAR
+    ```
+## **4) Các biến đặc biệt**
 - `$0` : tên file của sript
 - `$#` : số biến có trong script
 - `$$` : số PID khi script được thực hiện
