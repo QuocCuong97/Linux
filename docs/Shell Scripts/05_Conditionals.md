@@ -1,5 +1,5 @@
 # Cấu trúc rẽ nhánh **`if`**
-### **`If`**
+### **`Simple if`**
 - Cú pháp 
     ```bash
     if điều_kiện
@@ -19,6 +19,35 @@
         ....
     fi
     ```
+### **`If...elif...else`**
+- Cú pháp :
+    ```bash
+    if điều_kiện then
+        command1
+        ....
+    elif điều_kiện then
+        command2
+        ....
+    else
+        command3
+        ....
+    fi
+    ```
+### **`Nested if`**
+- Cú pháp :
+    ```bash
+    if điều_kiện then
+        command1
+        ....
+    else
+        if điều_kiện then
+            command2
+            ....
+        else
+            command3
+            ....
+        fi
+    fi
 # Cấu trúc điều kiện **`case`**
 - Cú pháp :
     ```bash
