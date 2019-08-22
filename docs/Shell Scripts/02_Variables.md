@@ -56,9 +56,9 @@
         Hello
         Tuan
         ```
-- Đóng gói tên biến trong dấu `${}` để tránh nhầm lẫn
-    ```bash
-    MyFirstLetters=ABC
-    echo "The first 10 letters in the alphabet are: ${MyFirstLetters}DEFGHIJ"
-    ```
-- Sử dụng `""` để giữ lại những giá trị 
+## **3) Các biến đặc biệt**
+- `$0` : tên file của sript
+- `$#` : số biến có trong script
+- `$$` : số PID khi script được thực hiện
+- `$?` : exit status code của lệnh trước
+- `$!` : 
