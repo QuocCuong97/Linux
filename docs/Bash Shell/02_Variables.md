@@ -75,9 +75,3 @@
     echo $LOCAL_VAR     ## This will not accessible here
     echo $GLOBAL_VAR
     ```
-## **4) Các biến đặc biệt**
-- `$0` : tên file của sript
-- `$#` : số biến có trong script
-- `$$` : số PID khi script được thực hiện
-- `$?` : exit status code của lệnh trước
-- `$!` : 
