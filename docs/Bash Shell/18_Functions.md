@@ -9,7 +9,7 @@
 
     functionName  //calling of function
     ```
-- **VD1 :** Tạo hàm ( không có tham số kèm theo ) :
+- **VD :** Tạo hàm ( không có tham số kèm theo ) :
     ```bash
     #!/bin/bash
 
@@ -30,7 +30,8 @@
     ```
     Hello World!
     ```
-- **VD2 :** Hàm đi kèm tham số :
+### **Tạo Hàm đi kèm tham số**
+- **VD :** Có script sau :
     ```bash
     #!/bin/bash
 
@@ -57,4 +58,52 @@
     Third Argument: to
     Fourth Argument: Nhanhoa
     ```
-> [Còn nữa](https://tecadmin.net/how-to-use-functions-in-shell-scripts/)
+### **Trả về kết quả của hàm trong Shell**
+- **VD :** Có script sau :
+    ```bash
+    #!/bin/bash
+
+    funReturnValues(){
+    echo 5
+    }
+
+    # Call funReturnValues from any where in script and get return values
+
+    values=$(funReturnValues)
+    echo "Return value is : $values"
+    ```
+    => Output :
+    ```
+    5
+    ```
+### **Tạo hàm đệ quy trong Shell**
+- Hàm mà có thể tự gọi được nó gọi là **hàm đệ quy** ( ***recursive function*** ) .
+- **VD :** Có script sau :
+    ```bash
+    #!/bin/bash
+
+    funRecursive(){
+    val=$1
+    if [ $val -gt 5 ]
+    then
+        exit 0
+    else
+        echo $val
+    fi
+    val=$((val+1))
+    funRecursive $val     # Function calling itself here
+    }
+
+    # Call funRecursive from any where in script
+
+    funRecursive 1
+    ```
+    => Output :
+    ```
+    1
+    2
+    3
+    4
+    5
+    ```
+
