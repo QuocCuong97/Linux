@@ -22,3 +22,5 @@
 - [**1) Script cài đặt `LAMP Stack`**](https://github.com/QuocCuong97/Linux/blob/master/docs/Shell%20Scripts/Scripts/01_Install_LAMP_by_Script.md)<br>
 - [**2) Script cài đặt `WordPress`**](https://github.com/QuocCuong97/Linux/blob/master/docs/Shell%20Scripts/Scripts/02_Installation_WordPress_Script.md)<br>
 - [**3) Script bảo mật giao thức `SSH`**](https://github.com/QuocCuong97/Linux/blob/master/docs/Shell%20Scripts/Scripts/03_Secure_SSH.md)<br>
+- [**4) `Yes/No` Question**]()
+- [**5) Scrpit kiểm tra thuộc tính của file**]()
