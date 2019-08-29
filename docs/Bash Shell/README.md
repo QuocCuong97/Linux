@@ -18,6 +18,7 @@
 - [**16) While Loop**](https://github.com/QuocCuong97/Linux/blob/master/docs/Shell%20Scripts/16_While_Loop.md)<br>
 - [**17) Case**](https://github.com/QuocCuong97/Linux/blob/master/docs/Shell%20Scripts/17_Case.md)<br>
 - [**18) Functions**](https://github.com/QuocCuong97/Linux/blob/master/docs/Shell%20Scripts/18_Functions.md)<br>
+- [**19) Arrays**](https://github.com/QuocCuong97/Linux/blob/master/docs/Bash%20Shell/19_Arrays.md)<br>
 ## **II) Shell Scripts**
 - [**1) Script cài đặt `LAMP Stack`**](https://github.com/QuocCuong97/Linux/blob/master/docs/Shell%20Scripts/Scripts/01_Install_LAMP_by_Script.md)<br>
 - [**2) Script cài đặt `WordPress`**](https://github.com/QuocCuong97/Linux/blob/master/docs/Shell%20Scripts/Scripts/02_Installation_WordPress_Script.md)<br>
