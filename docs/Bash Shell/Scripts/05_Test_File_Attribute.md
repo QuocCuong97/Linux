@@ -1,5 +1,5 @@
 # Script kiểm tra thuộc tính của file
-- Các thuộc tính của file :
+- Kiểm tra điều kiện của file :
     | Thuộc tính | Kết quả |
     |------------|---------|
     | `-e file` | `true` nếu file tồn tại |
@@ -12,7 +12,13 @@
     | `-r file` | `true` nếu file cho phép quyền `read` |
     | `-w file` | `true` nếu file cho phép quyền `write` |
     | `-x file` | `true` nếu file cho phép quyền `execute` |
-
+- So sánh chuỗi :
+    | So sánh | Kết quả |
+    |------------|---------|
+    | `string1 = string2` | `true` nếu 2 chuỗi bằng nhau<br>(chính xác từng ký tự) |
+    | `string1 != string2` | `true` nếu 2 chuỗi không bằng nhau |
+    | `-n string1` | `true` nếu `string1` không rỗng |
+    | `-z string1` | `true` nếu `string1` rỗng (NULL) |
 ## **Sử dụng lệnh `test`**
 - Cấu trúc :
     ```
