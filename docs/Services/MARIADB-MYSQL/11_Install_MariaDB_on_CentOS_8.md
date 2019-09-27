@@ -1,4 +1,4 @@
-# Cài đặt MariaDB `10.4.8` trên CentOS 8
+# Cài đặt MariaDB 10.4.8 trên CentOS 8
 - **B1 :** Update hệ thống :
     ```
     yum -y update
