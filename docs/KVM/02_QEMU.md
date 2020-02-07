@@ -173,5 +173,15 @@
     Creating journal (16384 blocks): done
     Writing superblocks and filesystem accounting information: done 
     ```
-
-
+### **3.4) Cài đặt OS**
+#### **3.4.1) Download images from Internet**
+- Các **images** chính thức từ Internet :
+    - **Ubuntu** : https://uec-images.ubuntu.com/releases/
+    - **CentOS** : https://cloud.centos.org/centos/
+    - **Debian** : https://cdimage.debian.org/cdimage/openstack/
+    - **Fedora** : https://alt.fedoraproject.org/cloud/
+    - **openSUSE** : https://download.opensuse.org/repositories/Cloud:/Images:/
+- **B1 :** Download **image** về máy :
+    ```
+    # wget https://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud-1907.qcow2
+    ```
