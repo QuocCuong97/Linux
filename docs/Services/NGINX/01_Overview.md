@@ -109,6 +109,30 @@
     ```
     http://192.168.5.188
     ```
+### **4.3) Cài đặt từ source**
 ## **5) Các file cấu hình cơ bản của NGINX**
 - `/etc/nginx/nginx.conf` : file cấu hình chính
+- `/usr/local/nginx/conf.d/` : thư mục chứa các file cấu hình riêng (như virtual host,...)
 - `/usr/share/nginx/html` : thư mục chứa source code web
+## **6) Một số lệnh cơ bản với NGINX**
+- Khởi động **NGINX** :
+    ```
+    # nginx
+    ```
+- Dừng dịch vụ **NGINX**
+    ```
+    # nginx -s quit
+    ```
+- Kiểm tra cú pháp cấu hình **NGINX** :
+    ```
+    # nginx -t
+    ```
+- Load lại cấu hình **NGINX** mà không cần khởi động lại dịch vụ :
+    ```
+    # nginx -s reload
+    ```
+- Mở trực tiếp file log của **NGINX** :"
+    ```
+    # nginx -s reopen
+    ```
+
