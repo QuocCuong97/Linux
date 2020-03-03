@@ -56,6 +56,7 @@
     ```
     # firewall-cmd --zone=public --permanent --add-port=80/tcp
     # firewall-cmd --reload
+    ```
 - **B7 :** Khởi động và cấu hình startup cho dịch vụ :
     ```
     # systemctl start nginx.service
@@ -135,4 +136,3 @@
     ```
     # nginx -s reopen
     ```
-
