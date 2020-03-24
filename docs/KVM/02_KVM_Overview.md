@@ -1,14 +1,12 @@
 # Tổng quan về KVM
-## **1) Phân biệt Hypervisor và Virtualization**
-## **2) Tổng quan về KVM**
-### **2.1) Giới thiệu**
+## **1) Giới thiệu**
 - **KVM** - **Kernel-based Virtual Machine** là giải pháp ảo hóa cho hệ thống Linux trên nền tảng phần cứng `x86` cho các module mở rộng hỗ trợ ảo hóa ( **Intel VT-x** hoặc **AMD-V** ) .
 - **KVM** không thực sự là một **hypervisor** có chức năng giả lập phần cứng để chạy các máy ảo mà chỉ là một module của kernel linux hỗ trợ cơ chế mapping các chỉ dẫn trên CPU ảo (của guest VM) sang chỉ dẫn trên CPU vật lý (của máy chủ chứa VM) .
 - **KVM** ban đầy được phát triển bởi **Qumranet** - một công ty nhỏ , sau đó được **RedHat** mua lại vào tháng `9` năm `2008` .
 - **KVM** được sử dụng mặc định từ bản **RHEL** `5.4` và các phiên bản **RedHat Enterprise Virtualization** cho server .
 - **Qumranet** phát hành mã của **KVM** cho cộng đồng mã nguồn mở .
 - Từ bản `2.6.20` , **KVM** trở thành một phần trong kernel Linux .
-### **2.2) Cấu trúc của KVM**
+## **2) Cấu trúc của KVM**
 - Trong kiến trúc **KVM**, máy ảo sẽ là một tiến trình Linux, được lập lịch bởi chuẩn Linux Scheduler .
 - Trong thực tế mỗi CPU ảo xuất hiện như là một tiến trình Linux => điều này cho phép **KVM** sử dụng tất cả các tính năng của Linux Kernel .
 - Cấu trúc tổng quan :
@@ -29,4 +27,3 @@
     - **Libvirt Mangagement Stack** :
         - Cung cấp **API** để các tool như `virsh` có thể giao tiếp và quản lý các **VM** .
         - Cung cấp chế độ quản lý từ xa an toàn .
-        
