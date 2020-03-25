@@ -161,11 +161,11 @@
 
 - **B16 :** Chọn tab **Computes** :
 
-    <p align=center><img src=https://i.imgur.com/LHF0dcV.png width=80%></p>
+    <p align=center><img src=https://i.imgur.com/BcelVEG.png width=80%></p>
 
 - **B17 :** Chọn biểu tượng dấu "`+`" để thêm **compute** :
 
-    <p align=center><img src=https://i.imgur.com/XVKJFud.png width=80%></p>
+    <p align=center><img src=https://i.imgur.com/XcbONWl.png width=80%></p>
 
 - **B18 :** Nhập các thông tin để liên kết đến **KVM Computes** :
 
@@ -212,155 +212,155 @@
 - Tạo **Storage Pool** để lưu trữ các volume của VMs và các file `.iso` để cài đặt OS cho VMs
 - **B1 :** Trong tab **Computes**, chọn vào cụm KVM muốn tạo **Storage Pool** :
 
-    <img src=https://i.imgur.com/run5A5V.png>
+    <p align=center><img src=https://i.imgur.com/run5A5V.png width=80%></p>
 
 - **B2 :** Chọn tab **Storages** :
 
-    <img src=https://i.imgur.com/DrvRpYk.png>
+    <p align=center><img src=https://i.imgur.com/DrvRpYk.png width=80%></p>
 
 - **B3 :** Click vào biểu tượng dấu "`+`" ở góc phải màn hình thể thêm pool mới :
 
-    <img src=https://i.imgur.com/xl8zAIJ.png>
+    <p align=center><img src=https://i.imgur.com/xl8zAIJ.png width=80%></p>
 
 - **B4 :** Tại cửa sổ **Create Storage Pool**, chọn tab **DIR** để tạo pool chứa các volumes VMs :
 
-    <img src=https://i.imgur.com/5p6E5gf.png>
+    <p align=center><img src=https://i.imgur.com/5p6E5gf.png width=80%></p>
 
 - **B5 :** Chọn tab **ISO** để tạo pool chứa các file `.iso` cho quá trình cài đặt OS :
 
-    <img src=https://i.imgur.com/C1ci82l.png>
+    <p align=center><img src=https://i.imgur.com/C1ci82l.png width=80%></p>
 
     => Kết quả :
 
-    <img src=https://i.imgur.com/QcvMXbO.png>
+    <p align=center><img src=https://i.imgur.com/QcvMXbO.png width=80%></p>
 
 ### **3.4) Tạo Networks Pool**
 - **B1 :** Trong tab **Networks**, chọn biểu tượng dấu "`+`" ở góc phải màn hình :
 
-    <img src=https://i.imgur.com/whLEoku.png>
+    <p align=center><img src=https://i.imgur.com/whLEoku.png width=80%></p>
 
 - **B2 :** Trong cửa sổ **Add New Network**, chọn loại card mạng cần tạo và chọn ***Create*** :
 
-    <img src=https://i.imgur.com/sidj4MP.png>
+    <p align=center><img src=https://i.imgur.com/sidj4MP.png width=80%></p>
 
 ### **3.5) Gán VMs cho user** :
 - **B1 :** Trong tab **Users**, chọn vào user muốn gán VMs :
 
-    <img src=https://i.imgur.com/ADFfOHV.png>
+    <p align=center><img src=https://i.imgur.com/ADFfOHV.png width=80%></p>
 
 - **B2 :** Chọn vào biểu tượng dấu "`+`" ở góc phải màn hình :
 
-    <img src=https://i.imgur.com/R8pCrhB.png> 
+    <p align=center><img src=https://i.imgur.com/R8pCrhB.png width=80%></p> 
 
 - **B3 :** Tại cửa sổ **Add Instance for User**, chọn host muốn gán cho user và chọn ***Add*** :
 
-    <img src=https://i.imgur.com/GQxCG14.png>
+    <p align=center><img src=https://i.imgur.com/GQxCG14.png width=80%></p>
 
 - **B4 :** Sau khi gán xong, mặc định các quyền của user tạm thời chưa sử dụng được vì bị set là `False` . Chọn biểu tượng `Edit` :
 
-    <img src=https://i.imgur.com/ua7EKqB.png>
+    <p align=center><img src=https://i.imgur.com/ua7EKqB.png width=80%></p>
 
 - **B5 :** Chỉnh sửa các quyền cho phù hợp rồi chọn ***Edit*** :
 
-    <img src=https://i.imgur.com/m5BVqz6.png>
+    <p align=center><img src=https://i.imgur.com/m5BVqz6.png width=80%></p>
 
     => Kết quả :
 
-    <img src=https://i.imgur.com/kvvKZVc.png>
+    <p align=center><img src=https://i.imgur.com/kvvKZVc.png width=80%></p>
 
 - **B6 :** Login bằng user vừa được gán quyền. Máy vừa gán sẽ hiện trên tab **Instances** :
 
-    <img src=https://i.imgur.com/9JtwJrj.png>
+    <p align=center><img src=https://i.imgur.com/9JtwJrj.png width=80%></p>
 
 ### **3.6) Tạo VMs**
 > Để tạo được VMs, phải đăng nhập dưới quyền **ADMIN**!
 - **B1 :** Trong tab **Instances**, chọn biểu tượng dấu "`+`" ở góc phải màn hình :
 
-    <img src=https://i.imgur.com/0XM0SZw.png>
+    <p align=center><img src=https://i.imgur.com/0XM0SZw.png width=80%></p>
 
 - **B2 :** Chọn cụm Computes đã liên kết :
 
-    <img src=https://i.imgur.com/aMiRT13.png>
+    <p align=center><img src=https://i.imgur.com/aMiRT13.png width=80%></p>
 
 - **B3 :** Tại cửa sổ **Architecture**, để thông tin mặc định và chọn ***Next*** :
 
-    <img src=https://i.imgur.com/N0E1h9R.png>
+    <p align=center><img src=https://i.imgur.com/N0E1h9R.png width=80%></p>
 
 - **B4 :** Tại cửa sổ tiếp theo, có 3 tùy chọn :
     - **Flavor** : Cài theo cấu hình gợi ý theo từng level
     - **Custom** : Cài theo cách tự tùy chỉnh hoàn toàn các thông số
     - **Template** : Cài bằng template có sẵn :
 
-    <img src="https://i.imgur.com/mXxRBzB.png">
+    <p align=center><img src="https://i.imgur.com/mXxRBzB.png" width=80%></p>
 
 > <h3 align=center><strong>1 - Cài theo Flavor</strong></h3>
 - **B5 :** Chọn biểu tượng dấu "`+`" ở cấu hình flavor muốn cài :
 
-    <img src=https://i.imgur.com/6OEfNNn.png>
+    <p align=center><img src=https://i.imgur.com/6OEfNNn.png width=80%></p>
 
 - **B6 :** Nhập đầy đủ các thông tin về VM muốn tạo và chọn ***Create*** :
 
-    <img src=https://i.imgur.com/5tqacx9.png>
+    <p align=center><img src=https://i.imgur.com/5tqacx9.png width=80%></p>
 
     => VM được tạo thành công :
 
-    <img src=https://i.imgur.com/1vLKf2U.png>
+    <p align=center><img src=https://i.imgur.com/1vLKf2U.png width=80%></p>
 
 - **B7 :** Trong tab **Settings**, chọn tab **Disk**, tiến hành chọn file `.iso` mà mount vào VM vừa cài đặt :
 
-    <img src=https://i.imgur.com/Bepr8CW.png>
+    <p align=center><img src=https://i.imgur.com/Bepr8CW.png width=80%></p>
 
 - **B8 :** Trong tab **Power**, chọn ***Power on*** để bật máy ảo :
 
-    <img src=https://i.imgur.com/57zyRqI.png>
+    <p align=center><img src=https://i.imgur.com/57zyRqI.png width=80%></p>
 
 - **B9 :** Sau khi đã bật máy, trong tab **Access**, chọn ***Console*** để truy cập giao diện VNC điều khiển VM :
 
-    <img src=https://i.imgur.com/Wm7rm8r.png>
+    <p align=center><img src=https://i.imgur.com/Wm7rm8r.png width=80%></p>
 
     => Kết quả : Giao diện console bằng VNC :
 
-    <img src=https://i.imgur.com/wNtUS7M.png>
+    <p align=center><img src=https://i.imgur.com/wNtUS7M.png width=80%></p>
 
 > <h3 align=center><strong>2 - Cài theo Custom</strong></h3>
 - **B5 :** Trong tab **Computes**, chọn cụm KVM, vào tab **Storages** , chọn pool lưu trữ volume để tạo mới volumes :
 
-    <img src=https://i.imgur.com/1kr4qOA.png>
+    <p align=center><img src=https://i.imgur.com/1kr4qOA.png width=80%></p>
 
 - **B6 :** Chọn dấu "`+`" ở góc phải màn hình để tạo volume mới :
 
-    <img src=https://i.imgur.com/TWR27y8.png>
+    <p align=center><img src=https://i.imgur.com/TWR27y8.png width=80%></p>
 
 - **B7 :** Tại cửa sổ **Add New Volume** , nhập các thông tin cần thiết cho volume, sau đó chọn ***Create*** :
 
-    <img src=https://i.imgur.com/TJUzBSM.png>
+    <p align=center><img src=https://i.imgur.com/TJUzBSM.png width=80%></p>
 
     => Kết quả :
 
-    <img src=https://i.imgur.com/E5jWi6f.png>
+    <p align=center><img src=https://i.imgur.com/E5jWi6f.png width=80%></p>
 
 - **B8 :** Tại tab **Custom**, nhập đầy đủ các thông tin về VM muốn tạo và chọn ***Create*** :
 
-    <img src=https://i.imgur.com/yfsnqrz.png>
+    <p align=center><img src=https://i.imgur.com/yfsnqrz.png width=80%></p>
 
     => VM được tạo thành công :
 
-    <img src=https://i.imgur.com/ivLO9ec.png>
+    <p align=center><img src=https://i.imgur.com/ivLO9ec.png width=80%></p>
 
 - **B9 :** Trong tab **Settings**, chọn tab **Disk**, tiến hành chọn file `.iso` mà mount vào VM vừa cài đặt :
 
-    <img src=https://i.imgur.com/Bepr8CW.png>
+    <p align=center><img src=https://i.imgur.com/Bepr8CW.png width=80%></p>
 
 - **B10 :** Trong tab **Power**, chọn ***Power on*** để bật máy ảo :
 
-    <img src=https://i.imgur.com/57zyRqI.png>
+    <p align=center><img src=https://i.imgur.com/57zyRqI.png width=80%></p>
 
 - **B11 :** Sau khi đã bật máy, trong tab **Access**, chọn ***Console*** để truy cập giao diện VNC điều khiển VM :
 
-    <img src=https://i.imgur.com/Wm7rm8r.png>
+    <p align=center><img src=https://i.imgur.com/Wm7rm8r.png width=80%></p>
 
     => Kết quả : Giao diện console bằng VNC :
 
-    <img src=https://i.imgur.com/wNtUS7M.png>
+    <p align=center><img src=https://i.imgur.com/wNtUS7M.png width=80%></p>
 
 > <h3 align=center><strong>3 - Cài theo Template</strong></h3>
