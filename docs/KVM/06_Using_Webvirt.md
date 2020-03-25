@@ -20,9 +20,10 @@
 - **B3 :** Chỉnh sửa file `/etc/sysconfig/libvirtd` :
 
     <img src=https://i.imgur.com/FazKO1M.png>
-- **B4 :** Cho phép port `16509` đi qua **firewalld** :
+- **B4 :** Cho phép port `16509` của **libvirt** và dải port `5900-5999` của **VNC** đi qua **firewalld** :
     ```
     # firewall-cmd --permanent --add-port=16509/tcp
+    # firewall-cmd --permanent --add-port=5900-5999/tcp
     # firewall-cmd --reload
     ```
 - **B5 :** Restart lại dịch vụ `libvirt` :
@@ -273,25 +274,69 @@
 
 ### **3.6) Tạo VMs**
 > Để tạo được VMs, phải đăng nhập dưới quyền **ADMIN**!
-- **B1 :** Trong tab **Instances**, chọn biểu tượng dấu "`+`" ở góc phải màn hình :
+- **B1 :** Trong tab **Computes**, chọn cụm KVM, vào tab **Storages** , chọn pool lưu trữ volume để tạo mới volumes :
+
+    <img src=https://i.imgur.com/1kr4qOA.png>
+
+- **B2 :** Chọn dấu "`+`" ở góc phải màn hình để tạo volume mới :
+
+    <img src=https://i.imgur.com/TWR27y8.png>
+
+- **B3 :** Tại cửa sổ **Add New Volume** , nhập các thông tin cần thiết cho volume, sau đó chọn ***Create*** :
+
+    <img src=https://i.imgur.com/TJUzBSM.png>
+
+    => Kết quả :
+
+    <img src=https://i.imgur.com/E5jWi6f.png>
+
+- **B4 :** Trong tab **Instances**, chọn biểu tượng dấu "`+`" ở góc phải màn hình :
 
     <img src=https://i.imgur.com/0XM0SZw.png>
 
-- **B2 :** Chọn cụm Computes đã liên kết :
+- **B5 :** Chọn cụm Computes đã liên kết :
 
     <img src=https://i.imgur.com/aMiRT13.png>
 
-- **B3 :** Tại cửa sổ **Architecture**, để thông tin mặc định và chọn ***Next*** :
+- **B6 :** Tại cửa sổ **Architecture**, để thông tin mặc định và chọn ***Next*** :
 
     <img src=https://i.imgur.com/N0E1h9R.png>
 
-- **B4 :** Tại cửa sổ tiếp theo, có 3 tùy chọn :
+- **B7 :** Tại cửa sổ tiếp theo, có 3 tùy chọn :
     - **Flavor** : Cài theo cấu hình gợi ý theo từng level
     - **Custom** : Cài theo cách tự tùy chỉnh hoàn toàn các thông số
     - **Template** : Cài bằng template có sẵn :
 
     <img src="https://i.imgur.com/mXxRBzB.png">
 
-> <p align=center><strong>Cài kiểu Flavor</strong></p>
+> <h3 align=center><strong>Cài theo Flavor</strong></h3>
+- **B8 :** Chọn biểu tượng dấu "`+`" ở cấu hình flavor muốn cài :
 
->**Cài kiểu Custom**
+    <img src=https://i.imgur.com/6OEfNNn.png>
+
+> <h3 align=center><strong>Cài theo Custom</strong></h3>
+- **B8 :** Tại tab **Custom**, nhập đầy đủ các thông tin về VM muốn tạo và chọn ***Create*** :
+
+    <img src=https://i.imgur.com/yfsnqrz.png>
+
+    => VM được tạo thành công :
+
+    <img src=https://i.imgur.com/ivLO9ec.png>
+
+- **B9 :** Trong tab **Settings**, chọn tab **Disk**, tiến hành chọn file `.iso` mà mount vào VM vừa cài đặt :
+
+    <img src=https://i.imgur.com/Bepr8CW.png>
+
+- **B10 :** Trong tab **Power**, chọn ***Power on*** để bật máy ảo :
+
+    <img src=https://i.imgur.com/57zyRqI.png>
+
+- **B11 :** Sau khi đã bật máy, trong tab **Access**, chọn ***Console*** để truy cập giao diện VNC điều khiển VM :
+
+    <img src=https://i.imgur.com/Wm7rm8r.png>
+
+    => Kết quả : Giao diện console bằng VNC :
+
+    <img src=https://i.imgur.com/wNtUS7M.png>
+
+> <h3 align=center><strong>Cài theo Template</strong></h3>
