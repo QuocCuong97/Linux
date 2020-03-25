@@ -157,56 +157,56 @@
     ```
     http://192.168.5.20
     ```
-    <img src=https://i.imgur.com/2AmqGzY.png>
+    <p align=center><img src=https://i.imgur.com/2AmqGzY.png width=80%></p>
 
 - **B16 :** Chọn tab **Computes** :
 
-    <img src=https://i.imgur.com/LHF0dcV.png>
+    <p align=center><img src=https://i.imgur.com/LHF0dcV.png width=80%></p>
 
 - **B17 :** Chọn biểu tượng dấu "`+`" để thêm **compute** :
 
-    <img src=https://i.imgur.com/XVKJFud.png>
+    <p align=center><img src=https://i.imgur.com/XVKJFud.png width=80%></p>
 
 - **B18 :** Nhập các thông tin để liên kết đến **KVM Computes** :
 
-    <img src=https://i.imgur.com/lSDIy6Y.png>
+    <p align=center><img src=https://i.imgur.com/lSDIy6Y.png width=80%></p>
 
     => Kết nối thành công :
 
-    <img src=https://i.imgur.com/6rn96P5.png>
+    <p align=center><img src=https://i.imgur.com/6rn96P5.png width=80%></p>
 
     => Trong tab **Instances** sẽ xuất hiện máy ảo đã tạo trong **KVM Computes** :
 
-    <img src=https://i.imgur.com/G702Tma.png>
+    <p align=center><img src=https://i.imgur.com/G702Tma.png width=80%></p>
 
 ## **2) Cài đặt Webvirt Manager trên Ubuntu**
 ## **3) Sử dụng Webvirt Cloud**
 ### **3.1) Thay đổi password user `admin`** 
 - **B1 :** Vào tab **Users**, chọn vào biểu tượng hình bánh răng ở ô của user `admin` :
 
-    <img src=https://i.imgur.com/POS3asb.png>
+    <p align=center><img src=https://i.imgur.com/POS3asb.png width=80%></p>
 
 - **B2 :** Nhập password muốn đổi và các trường bắt buộc phía dưới, chọn ***Edit*** :
 
-    <img src=https://i.imgur.com/60uRbJ3.png>
+    <p align=center><img src=https://i.imgur.com/60uRbJ3.png width=80%></p>
 
 - **B3 ;** Sau khi chọn ***Edit***, hệ thống sẽ tự động logout và yêu cầu người dùng đăng nhập bằng mật khẩu mới .
 ### **3.2) Tạo user mới**
 - **B1 :** Trong tab **Users**, chọn vào biểu tượng dấu "`+`" ở góc phải màn hình :
 
-    <img src=https://i.imgur.com/3Uavr8A.png>
+    <p align=center><img src=https://i.imgur.com/3Uavr8A.png width=80%></p>
 
 - **B2 :** Tại cửa sổ **Add New User**, nhập username muốn tạo và passwword, sau đó chọn ***Create*** :
 
-    <img src=https://i.imgur.com/edV2y3U.png>
+    <p align=center><img src=https://i.imgur.com/edV2y3U.png width=80%></p>
 
 - **B3 :** Chọn vào biểu tượng hình bánh răng ở ô của user `cuongnq` :
 
-    <img src=https://i.imgur.com/HpFMcuj.png>
+    <p align=center><img src=https://i.imgur.com/HpFMcuj.png width=80%></p>
 
 - **B4 :** Tại cửa sổ **Edit user info**, nhập các thông tin cần thiết ở các trường, sau đó chọn ***Edit*** :
 
-    <img src=https://i.imgur.com/L0Z3ADf.png>
+    <p align=center><img src=https://i.imgur.com/L0Z3ADf.png width=80%></p>
 
 ### **3.3) Tạo Storage Pool**
 - Tạo **Storage Pool** để lưu trữ các volume của VMs và các file `.iso` để cài đặt OS cho VMs
@@ -274,15 +274,64 @@
 
 ### **3.6) Tạo VMs**
 > Để tạo được VMs, phải đăng nhập dưới quyền **ADMIN**!
-- **B1 :** Trong tab **Computes**, chọn cụm KVM, vào tab **Storages** , chọn pool lưu trữ volume để tạo mới volumes :
+- **B1 :** Trong tab **Instances**, chọn biểu tượng dấu "`+`" ở góc phải màn hình :
+
+    <img src=https://i.imgur.com/0XM0SZw.png>
+
+- **B2 :** Chọn cụm Computes đã liên kết :
+
+    <img src=https://i.imgur.com/aMiRT13.png>
+
+- **B3 :** Tại cửa sổ **Architecture**, để thông tin mặc định và chọn ***Next*** :
+
+    <img src=https://i.imgur.com/N0E1h9R.png>
+
+- **B4 :** Tại cửa sổ tiếp theo, có 3 tùy chọn :
+    - **Flavor** : Cài theo cấu hình gợi ý theo từng level
+    - **Custom** : Cài theo cách tự tùy chỉnh hoàn toàn các thông số
+    - **Template** : Cài bằng template có sẵn :
+
+    <img src="https://i.imgur.com/mXxRBzB.png">
+
+> <h3 align=center><strong>1 - Cài theo Flavor</strong></h3>
+- **B5 :** Chọn biểu tượng dấu "`+`" ở cấu hình flavor muốn cài :
+
+    <img src=https://i.imgur.com/6OEfNNn.png>
+
+- **B6 :** Nhập đầy đủ các thông tin về VM muốn tạo và chọn ***Create*** :
+
+    <img src=https://i.imgur.com/5tqacx9.png>
+
+    => VM được tạo thành công :
+
+    <img src=https://i.imgur.com/1vLKf2U.png>
+
+- **B7 :** Trong tab **Settings**, chọn tab **Disk**, tiến hành chọn file `.iso` mà mount vào VM vừa cài đặt :
+
+    <img src=https://i.imgur.com/Bepr8CW.png>
+
+- **B8 :** Trong tab **Power**, chọn ***Power on*** để bật máy ảo :
+
+    <img src=https://i.imgur.com/57zyRqI.png>
+
+- **B9 :** Sau khi đã bật máy, trong tab **Access**, chọn ***Console*** để truy cập giao diện VNC điều khiển VM :
+
+    <img src=https://i.imgur.com/Wm7rm8r.png>
+
+    => Kết quả : Giao diện console bằng VNC :
+
+    <img src=https://i.imgur.com/wNtUS7M.png>
+
+> <h3 align=center><strong>2 - Cài theo Custom</strong></h3>
+- **B5 :** Trong tab **Computes**, chọn cụm KVM, vào tab **Storages** , chọn pool lưu trữ volume để tạo mới volumes :
 
     <img src=https://i.imgur.com/1kr4qOA.png>
 
-- **B2 :** Chọn dấu "`+`" ở góc phải màn hình để tạo volume mới :
+- **B6 :** Chọn dấu "`+`" ở góc phải màn hình để tạo volume mới :
 
     <img src=https://i.imgur.com/TWR27y8.png>
 
-- **B3 :** Tại cửa sổ **Add New Volume** , nhập các thông tin cần thiết cho volume, sau đó chọn ***Create*** :
+- **B7 :** Tại cửa sổ **Add New Volume** , nhập các thông tin cần thiết cho volume, sau đó chọn ***Create*** :
 
     <img src=https://i.imgur.com/TJUzBSM.png>
 
@@ -290,31 +339,6 @@
 
     <img src=https://i.imgur.com/E5jWi6f.png>
 
-- **B4 :** Trong tab **Instances**, chọn biểu tượng dấu "`+`" ở góc phải màn hình :
-
-    <img src=https://i.imgur.com/0XM0SZw.png>
-
-- **B5 :** Chọn cụm Computes đã liên kết :
-
-    <img src=https://i.imgur.com/aMiRT13.png>
-
-- **B6 :** Tại cửa sổ **Architecture**, để thông tin mặc định và chọn ***Next*** :
-
-    <img src=https://i.imgur.com/N0E1h9R.png>
-
-- **B7 :** Tại cửa sổ tiếp theo, có 3 tùy chọn :
-    - **Flavor** : Cài theo cấu hình gợi ý theo từng level
-    - **Custom** : Cài theo cách tự tùy chỉnh hoàn toàn các thông số
-    - **Template** : Cài bằng template có sẵn :
-
-    <img src="https://i.imgur.com/mXxRBzB.png">
-
-> <h3 align=center><strong>Cài theo Flavor</strong></h3>
-- **B8 :** Chọn biểu tượng dấu "`+`" ở cấu hình flavor muốn cài :
-
-    <img src=https://i.imgur.com/6OEfNNn.png>
-
-> <h3 align=center><strong>Cài theo Custom</strong></h3>
 - **B8 :** Tại tab **Custom**, nhập đầy đủ các thông tin về VM muốn tạo và chọn ***Create*** :
 
     <img src=https://i.imgur.com/yfsnqrz.png>
@@ -339,4 +363,4 @@
 
     <img src=https://i.imgur.com/wNtUS7M.png>
 
-> <h3 align=center><strong>Cài theo Template</strong></h3>
+> <h3 align=center><strong>3 - Cài theo Template</strong></h3>
