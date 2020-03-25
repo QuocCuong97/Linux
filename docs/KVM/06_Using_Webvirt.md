@@ -1,5 +1,35 @@
 # Sử dụng Webvirt Manager để quản lý các VMs
 ## **1) Cài đặt Webvirt Manager trên CentOS 7**
+### **Mô hình**
+<img src=https://i.imgur.com/vRKA3Sf.png>
+
+### **Cài đặt KVM Computes**
+- **B1 :** Trên máy **KVM Computes** , cài đặt KVM để quản lý qua **Webvirt Cloud**<br>[Hướng dẫn cài đặt KVM trên CentOS 7](https://github.com/QuocCuong97/Linux/blob/master/docs/KVM/03_Install_KVM.md#1-c%C3%A0i-%C4%91%E1%BA%B7t-tr%C3%AAn-centos-7)
+- **B2 :** Chỉnh sửa file cấu hình `libvirt` :
+    ```
+    # vi /etc/libvirt/libvirtd.conf
+    ```
+    - Chỉnh sửa nội dung như sau :
+        ```
+        listen_tls = 0
+        listen_tcp = 1
+        tcp_port = "16509"
+        listen_addr = "0.0.0.0"
+        auth_tcp = "none"  
+        ```
+- **B3 :** Chỉnh sửa file `/etc/sysconfig/libvirtd` :
+
+    <img src=https://i.imgur.com/FazKO1M.png>
+- **B4 :** Cho phép port `16509` đi qua **firewalld** :
+    ```
+    # firewall-cmd --permanent --add-port=16509/tcp
+    # firewall-cmd --reload
+    ```
+- **B5 :** Restart lại dịch vụ `libvirt` :
+    ```
+    # systemctl restart libvirtd
+    ```
+### **Cài đặt Webvirt Cloud**
 - **B1 :** Update các package sẵn có :
     ```
     # yum -y update
@@ -124,9 +154,9 @@
     ```
 - **B15 :** Trên trình duyệt của client , truy cập địa chỉ của **WebvirtCloud**, login với user mặc định : `admin/admin` :
     ```
-    http://192.168.5.10
+    http://192.168.5.20
     ```
-    <img src=https://i.imgur.com/TW97ILb.png>
+    <img src=https://i.imgur.com/2AmqGzY.png>
 
 - **B16 :** Chọn tab **Computes** :
 
@@ -135,3 +165,133 @@
 - **B17 :** Chọn biểu tượng dấu "`+`" để thêm **compute** :
 
     <img src=https://i.imgur.com/XVKJFud.png>
+
+- **B18 :** Nhập các thông tin để liên kết đến **KVM Computes** :
+
+    <img src=https://i.imgur.com/lSDIy6Y.png>
+
+    => Kết nối thành công :
+
+    <img src=https://i.imgur.com/6rn96P5.png>
+
+    => Trong tab **Instances** sẽ xuất hiện máy ảo đã tạo trong **KVM Computes** :
+
+    <img src=https://i.imgur.com/G702Tma.png>
+
+## **2) Cài đặt Webvirt Manager trên Ubuntu**
+## **3) Sử dụng Webvirt Cloud**
+### **3.1) Thay đổi password user `admin`** 
+- **B1 :** Vào tab **Users**, chọn vào biểu tượng hình bánh răng ở ô của user `admin` :
+
+    <img src=https://i.imgur.com/POS3asb.png>
+
+- **B2 :** Nhập password muốn đổi và các trường bắt buộc phía dưới, chọn ***Edit*** :
+
+    <img src=https://i.imgur.com/60uRbJ3.png>
+
+- **B3 ;** Sau khi chọn ***Edit***, hệ thống sẽ tự động logout và yêu cầu người dùng đăng nhập bằng mật khẩu mới .
+### **3.2) Tạo user mới**
+- **B1 :** Trong tab **Users**, chọn vào biểu tượng dấu "`+`" ở góc phải màn hình :
+
+    <img src=https://i.imgur.com/3Uavr8A.png>
+
+- **B2 :** Tại cửa sổ **Add New User**, nhập username muốn tạo và passwword, sau đó chọn ***Create*** :
+
+    <img src=https://i.imgur.com/edV2y3U.png>
+
+- **B3 :** Chọn vào biểu tượng hình bánh răng ở ô của user `cuongnq` :
+
+    <img src=https://i.imgur.com/HpFMcuj.png>
+
+- **B4 :** Tại cửa sổ **Edit user info**, nhập các thông tin cần thiết ở các trường, sau đó chọn ***Edit*** :
+
+    <img src=https://i.imgur.com/L0Z3ADf.png>
+
+### **3.3) Tạo Storage Pool**
+- Tạo **Storage Pool** để lưu trữ các volume của VMs và các file `.iso` để cài đặt OS cho VMs
+- **B1 :** Trong tab **Computes**, chọn vào cụm KVM muốn tạo **Storage Pool** :
+
+    <img src=https://i.imgur.com/run5A5V.png>
+
+- **B2 :** Chọn tab **Storages** :
+
+    <img src=https://i.imgur.com/DrvRpYk.png>
+
+- **B3 :** Click vào biểu tượng dấu "`+`" ở góc phải màn hình thể thêm pool mới :
+
+    <img src=https://i.imgur.com/xl8zAIJ.png>
+
+- **B4 :** Tại cửa sổ **Create Storage Pool**, chọn tab **DIR** để tạo pool chứa các volumes VMs :
+
+    <img src=https://i.imgur.com/5p6E5gf.png>
+
+- **B5 :** Chọn tab **ISO** để tạo pool chứa các file `.iso` cho quá trình cài đặt OS :
+
+    <img src=https://i.imgur.com/C1ci82l.png>
+
+    => Kết quả :
+
+    <img src=https://i.imgur.com/QcvMXbO.png>
+
+### **3.4) Tạo Networks Pool**
+- **B1 :** Trong tab **Networks**, chọn biểu tượng dấu "`+`" ở góc phải màn hình :
+
+    <img src=https://i.imgur.com/whLEoku.png>
+
+- **B2 :** Trong cửa sổ **Add New Network**, chọn loại card mạng cần tạo và chọn ***Create*** :
+
+    <img src=https://i.imgur.com/sidj4MP.png>
+
+### **3.5) Gán VMs cho user** :
+- **B1 :** Trong tab **Users**, chọn vào user muốn gán VMs :
+
+    <img src=https://i.imgur.com/ADFfOHV.png>
+
+- **B2 :** Chọn vào biểu tượng dấu "`+`" ở góc phải màn hình :
+
+    <img src=https://i.imgur.com/R8pCrhB.png> 
+
+- **B3 :** Tại cửa sổ **Add Instance for User**, chọn host muốn gán cho user và chọn ***Add*** :
+
+    <img src=https://i.imgur.com/GQxCG14.png>
+
+- **B4 :** Sau khi gán xong, mặc định các quyền của user tạm thời chưa sử dụng được vì bị set là `False` . Chọn biểu tượng `Edit` :
+
+    <img src=https://i.imgur.com/ua7EKqB.png>
+
+- **B5 :** Chỉnh sửa các quyền cho phù hợp rồi chọn ***Edit*** :
+
+    <img src=https://i.imgur.com/m5BVqz6.png>
+
+    => Kết quả :
+
+    <img src=https://i.imgur.com/kvvKZVc.png>
+
+- **B6 :** Login bằng user vừa được gán quyền. Máy vừa gán sẽ hiện trên tab **Instances** :
+
+    <img src=https://i.imgur.com/9JtwJrj.png>
+
+### **3.6) Tạo VMs**
+> Để tạo được VMs, phải đăng nhập dưới quyền **ADMIN**!
+- **B1 :** Trong tab **Instances**, chọn biểu tượng dấu "`+`" ở góc phải màn hình :
+
+    <img src=https://i.imgur.com/0XM0SZw.png>
+
+- **B2 :** Chọn cụm Computes đã liên kết :
+
+    <img src=https://i.imgur.com/aMiRT13.png>
+
+- **B3 :** Tại cửa sổ **Architecture**, để thông tin mặc định và chọn ***Next*** :
+
+    <img src=https://i.imgur.com/N0E1h9R.png>
+
+- **B4 :** Tại cửa sổ tiếp theo, có 3 tùy chọn :
+    - **Flavor** : Cài theo cấu hình gợi ý theo từng level
+    - **Custom** : Cài theo cách tự tùy chỉnh hoàn toàn các thông số
+    - **Template** : Cài bằng template có sẵn :
+
+    <img src="https://i.imgur.com/mXxRBzB.png">
+
+> <p align=center><strong>Cài kiểu Flavor</strong></p>
+
+>**Cài kiểu Custom**
