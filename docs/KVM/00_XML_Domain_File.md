@@ -3,7 +3,7 @@
 - **XML** ( **eXtensible Markup Language** ) là ngôn ngữ đánh dấu chung do **W3C** đề nghị để tạo ra các ngôn ngữ khác. Nó có khả năng mô tả nhiều loại dữ liệu khác nhau .
 - Mục đích của **XML** là đơn giản hóa việc chia sẻ dữ liệu giữa các hệ thống khác nhau đặc biết là đối với các hệ thống được kết nối qua Internet
 - Một **VM** trong **KVM** có hai thành phần chính đó là **VM's definition** được lưu dưới dạng file `.xml` mặc định ở thư mục `/etc/libvirt/qemu` và **VM's storage** lưu dưới dạng file image .
-## **2) Các thành phần trong XML Domain file**
+
 - **VD :**
     ```xml
     <domain type='kvm' id='1'>
