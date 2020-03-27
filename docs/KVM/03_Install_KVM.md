@@ -133,4 +133,23 @@
 
     <img src=https://i.imgur.com/fQqrk1i.png>
 
-    
+## **3) Các thư mục quan trọng trong KVM**
+- `/var/lib/libvirt/images/` : thư mục lưu các disk của VM
+
+    <img src=https://i.imgur.com/tvcNMuB.png>
+
+- `/etc/libvirt/qemu/` : thư mục chứa các file `.xml` thông số kĩ thuật của VM :
+
+    <img src=https://i.imgur.com/VM764Ga.png>
+
+- `/etc/libvirt/qemu/networks/` : thư mục chứa các file liên quan đến network :
+
+    <img src=https://i.imgur.com/jDLr58K.png>
+
+- `/etc/libvirt/storage/` : thư mục lưu các file cấu hình storage pool :
+
+    <img src=https://i.imgur.com/G813Cwt.png>
+
+- `/var/lib/libvirt/qemu/snapshot/` : thư mục lưu các bản snapshot của các VM :
+
+    <img src=https://i.imgur.com/DxIIyDe.png>

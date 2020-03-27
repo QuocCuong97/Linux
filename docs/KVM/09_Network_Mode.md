@@ -96,6 +96,40 @@
         ```
         <img src=https://i.imgur.com/TdwLkCZ.png>
 
+## **3) Bridge**
+- Đối với chế độ **bridge**, KVM sử dụng công nghệ **Linux Bridge** .
+- **Linux Bridge** là một phần mềm được tích hợp trong nhân Linux để giải quyết vấn đề ảo hóa phần Network trong các máy vật lý .
+- Về mặt logic, **Linux Bridge** tạo ra một con switch ảo để các VM kết nối vào và có thể nói chuyện với nhau cũng như sử dụng để ra ngoài mạng .
 
+    <p align=center><img src=https://i.imgur.com/5xNgaoj.png width=80%></p>
 
-
+- Các lệnh làm việc với **bridge** :
+    - Tạo **bridge** :
+        ```
+        # brctl addbr bridge_name
+        ```
+    - Gán card cho **bridge** :
+        ```
+        # brctl addif bridge_name card_name
+        ```
+    - Kiểm tra lại hoạt động của **bridge** :
+        ```
+        # brctl show
+        ```
+    - Ngắt kết nối card khỏi **bridge** :
+        ```
+        # brctl delif bridge_name card_name
+        ```
+### **VD về cách cài đặt Bridge** :
+- **B1 :** Trên máy KVM, tạo **bridge** :
+    ```
+    # brctl addbr bridge1
+    ```
+- **B2 :** Gán card cho **bridge** :
+    ```
+    # brctl addif bridge1 ens33
+    ```
+- **B3 :** Kiểm tra lại **bridge** :
+    ```
+    # brctl show
+    ```
