@@ -96,13 +96,28 @@
         ```
         <img src=https://i.imgur.com/TdwLkCZ.png>
 
-## **3) Bridge**
+## **3) Công nghệ Linux Bridge**
+### **3.1) Giới thiệu**
 - Đối với chế độ **bridge**, KVM sử dụng công nghệ **Linux Bridge** .
 - **Linux Bridge** là một phần mềm được tích hợp trong nhân Linux để giải quyết vấn đề ảo hóa phần Network trong các máy vật lý .
 - Về mặt logic, **Linux Bridge** tạo ra một con switch ảo để các VM kết nối vào và có thể nói chuyện với nhau cũng như sử dụng để ra ngoài mạng .
 
     <p align=center><img src=https://i.imgur.com/5xNgaoj.png width=80%></p>
 
+### **3.2) Kiến trúc** 
+
+<p align=center><img src=https://i.imgur.com/oXlZTem.png width=70%></p>
+
+- Trong kiến trúc trên có các thành phần:
+    - Tap : có thể hiểu nó là một giao diên mạng để các máy ảo có thể giao tiếp được với bridge và nó nằm trong nhân kernel. Tap hoat động ở lớp 2 trong mô hình OSI
+    - vfs ( virtual file system): tạo 1 phân vùng để nhận gói tin forward data từ máy ảo thông qua forward database.
+    - fd (forward database): là cổng giao tiếp chuyển tiếp dữ liệu giữa máy ảo với bridge.
+    - Bridge: có chức năng giống với swtich layer 2.
+    - Port: có chức năng tương đương với port của switch thật.
+### **3.3) Chức năng của một switch ảo do Linux bridge tạo ra**
+- **STP**: là tính năng chống loop gói tin trong switch
+- **VLAN**: là tính năng rất quan trọng trong một switch
+- **FDB**: là tính năng chuyển gói tin theo database được xây dựng giúp tăng tốc độ của switch .
 - Các lệnh làm việc với **bridge** :
     - Tạo **bridge** :
         ```
