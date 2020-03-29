@@ -51,7 +51,7 @@
     --vcpus=1 \
     --memory=512 \
     --cdrom=/var/lib/libvirt/file-iso/CentOS-7-x86_64-Minimal-1908.iso \
-    --disk=/var/lib/libvirt/images/centos7-test,size=3 \
+    --disk=/var/lib/libvirt/images/centos7-test.qcow2,size=10 \
     --os-variant=rhel7 \
     --network bridge=virbr0
     ```

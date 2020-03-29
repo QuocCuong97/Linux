@@ -82,5 +82,82 @@
 ## **2) Snapshot trong KVM**
 - **Snapshot** là trạng thái của hệ thống ở một thời điểm nhất định, nó sẽ lưu lại cả những cài đặt và dữ liệu. Với **snapshot**, có thể quay trở lại trạng thái của máy ảo ở một thời điểm nào đó rất dễ dàng .
 - `libvirt` hỗ trợ việc tạo **snapshot** khi máy ảo đang chạy. Mặc dù vậy, nếu máy ảo của bạn đang chạy ứng dụng thì tốt hơn hết hãy tắt hoặc suspend trước khi tiến hành tạo **snapshot** .
+- Có 2 loại snapshot chính được hỗ trợ bởi libvirt:
+    - ***Internal*** : Trước và sau khi tạo snapshot, dữ liệu chỉ được lưu trên một ổ đĩa duy nhất. Người dùng có thể tạo internal snapshot bằng công cụ virt-manager. Mặc dù vậy, nó vẫn có 1 vài hạn chế :
+        - Chỉ hỗ trợ duy nhất định dạng `.qcow2`
+        - VM sẽ bị ngưng lại khi tiến hành snapshot
+        - Không hoạt động với LVM storage pools
+    - ***External*** : Dựa theo cơ chế copy-on-write. Khi snapshot được tạo, ổ đĩa ban đầu sẽ có trạng thái "read-only" và có một ổ đĩa khác chồng lên để lưu dữ liệu mới:
 
+        <p align=center><img src=https://i.imgur.com/kTfSDgR.png></p>
 
+        - Ổ đĩa được chồng lên được tạo ra có định dạng `.qcow2` , hoàn toàn trống và nó có thể chứa lượng dữ diệu giống như ổ đĩa ban đầu. External snapshot có thể được tạo với bất kì định dạng ổ đĩa nào mà libvirt hỗ trợ. Tuy nhiên không có công cụ đồ họa nào hỗ trợ cho việc này.
+- Một vài câu lệnh virsh liên quan tới việc tạo và quản lí máy ảo:
+    - `snapshot-create` : Tạo snapshot từ file XML
+    - `snapshot-create-as` : Tạo snapshot với những tùy chọn
+    - `snapshot-current` : Thiết lập hoặc lấy thông tin của snapshot hiện tại
+    - `snapshot-delete` : Xóa một snapshot
+    - `snapshot-dumpxml` : Tạo ra thêm 1 file XML cho một snapshot
+    - `snapshot-edit` : Chỉnh sửa file XML của snapshot
+    - `snapshot-info` : Lấy thông tin của snapshot
+    - `snapshot-list` : Lấy danh sách các snapshots
+    - `snapshot-parent` : Lấy tên của snapshot "cha" của một snapshot nào đó
+    - `snapshot-revert` : Quay trở về trạng thái khi tạo snapshot
+### **2.1) Tạo và quản lí Internal Snapshot**
+- Tạo mới snapshot :
+    ```
+    # virsh snapshot-create-as --domain CentOS7-01 --name "Begin" --description "ban khoi tao" --atomic
+    ```
+    > option `--atomic` đảm bảo cho sự vẹn toàn dữ liệu
+
+    <img src=https://i.imgur.com/bTPCsIY.png>
+
+- Kiểm tra snapshot vừa tạo :
+    ```
+    # virsh snapshot-list CentOS7-01
+    ```
+    <img src=https://i.imgur.com/QnRYwWZ.png>
+
+- Kiểm tra thông tin chi tiết bản snapshot "`Begin`" :
+    ```
+    # virsh snapshot-info CentOS7-01 Begin
+    ```
+    <img src=https://i.imgur.com/nMynlp9.png>
+    
+    - Bản snapshot được tạo ra riêng biệt không liên quan đến máy ảo . Máy ảo vẫn sử dụng disk của nó. Kiểm tra bằng lệnh "`virsh domblklist CentOS7-01`"
+
+        <img src=https://i.imgur.com/RYj4Kow.png>
+
+- Reverse lại bản snapshot "`Begin`" :
+    ```
+    # virsh snapshot-revert CentOS7-01 --snapshotname "`Begin`"
+    ```
+    - Thử tạo thêm 1 bản snapshot mới từ bản snapshot này :
+        ```
+        # virsh snapshot-create-as --domain CentOS7-01 --name "Begin-Child" --atomic
+        ```
+    - Kiểm tra lại bằng lệnh `snapshot-list --parent` ta sẽ thấy được mối quan hệ của 2 bản snapshot trên :
+        ```
+        # virsh snapshot-list --parent CentOS7-01
+        ```
+        <img src=https://i.imgur.com/EzawIy1.png>
+- Xóa các bản snapshot vừa tạo :
+    ```
+    # virsh snapshot-delete CentOS7-01 --snapshotname "`Begin`"
+    ```
+    <img src=https://i.imgur.com/FZl4vFU.png>
+    
+    > Thao tác này không xóa đi snapshot con của nó
+
+### **2.2) Tạo và quản lí External Snapshot**
+- **B1 :** Thực hiện kiểm tra ổ đĩa của máy ảo muốn tạo snapshot :
+    ```
+    # virsh domblklist CentOS7-01
+    ```
+    <img src=https://i.imgur.com/zJGFHEY.png>
+
+- **B2 :** Tiến hành tạo snapshot bằng câu lệnh :
+    ```
+    # virsh snapshot-create-as CentOS7-01 --name "Begin" --description "ban khoi tao --disk-only --atomic
+    ```
+    > Trong đó `--disk-only` dùng để tạo snapshot cho riêng ổ đĩa .

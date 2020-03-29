@@ -108,7 +108,7 @@
 ## **5) Các thao tác Snapshot**
 - Tạo snapshot :
     ```
-    # virsh snapshot-create-as --domain CentOS7-01 --name Begin --description "ban khoi tao"
+    # virsh snapshot-create-as --domain CentOS7-01 --name "Begin" --description "ban khoi tao"
     ```
     <img src=https://i.imgur.com/mm6fPJl.png>
 
@@ -120,17 +120,17 @@
 
 - Xem thông tin chi tiết bản snapshot đã tạo :
     ```
-    # virsh snapshot-info CentOS7-01 --snapshotname Begin
+    # virsh snapshot-info CentOS7-01 --snapshotname "Begin"
     ```
     <img src=https://i.imgur.com/kCBX9wM.png>
 
 - Reverse lại 1 bản snapshot đã tạo :
     ```
-    # virsh snapshot-revert CentOS7-01 --snapshotname Begin
+    # virsh snapshot-revert CentOS7-01 --snapshotname "Begin"
     ```
 - Xóa một bản snapshot đã tạo :
     ```
-    # virsh snapshot-delete CentOS7-01 --snapshotname Begin
+    # virsh snapshot-delete CentOS7-01 --snapshotname "Begin"
     ```
     <img src=https://i.imgur.com/FZl4vFU.png>
 
