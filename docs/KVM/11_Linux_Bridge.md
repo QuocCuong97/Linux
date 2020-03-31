@@ -144,3 +144,49 @@
             <img src=https://i.imgur.com/fWgPcKC.png>
 
     => Như vậy ta thấy rằng card `eth0` của VM đã được gắn thằng với switch được tạo ra bởi kiểu mạng bridge của host KVM tạo ra nên ta mới thấy rằng đường đi với nó có địa chỉ đầu và cuối giống nhau dù ta có bắt gói tin ở 4 điểm khác nhau. Có nghĩa là đường đi của nó đều đi qua tất cả các điểm này đầu là VM `192.168.5.131` và điểm cuối là `8.8.8.8`
+- **TH2 :** Đứng trên máy VM1 ping đến VM2 . Thực hiện bắt gói tin ICMP trên các điểm `eth0` của VM1, `vnet0` (tap), `bridge01`, `vnet1` (tap), `eth0` của VM2, `ens33` của KVM Host :
+    - Trên CentOS7-01 (VM1):
+        ```
+        # ping 192.168.5.132 && tcpdump -i eth0 icmp -w vm1.pcap
+        ```
+        > Trong đó `192.168.5.132` là IP của CentOS7-02
+        - File `vm1.pcap` :
+
+            <img src=https://i.imgur.com/DHqi1FM.png>
+
+    - Trên CentOS7-02 (VM2):
+        ```
+        # tcpdump -i eth0 icmp -w vm2.pcap
+        ```
+        - File `vm2.pcap` :
+
+            <img src=https://i.imgur.com/bi0dDEF.png>
+    - Trên KVM :
+        ```
+        # tcpdump -i ens33 icmp -w ens33.pcap
+        # tcpdump -i bridge01 icmp -w bridge01.pcap
+        # tcpdump -i vnet0 icmp -w vnet0.pcap
+        # tcpdump -i vnet1 icmp -w vnet0.pcap
+        ```
+        - File `bridge01.pcap` :
+
+            <img src=https://i.imgur.com/qBFT3pB.png>
+
+        - File `vnet0.pcap` :
+
+            <img src=https://i.imgur.com/MxmC1Pt.png>
+
+        - File `vnet1.pcap` :
+
+            <img src=https://i.imgur.com/yFLHVSE.png>
+
+        - File `ens33.pcap` :
+
+            <img src=https://i.imgur.com/AIeRfaa.png>
+
+    => Kết luận : đường đi gói tin khi ping từ VM1 qua VM2 : 
+    ```
+    eth0(VM1) --> vnet0(tap) --> bridge01 --> vmnet1(tap) --> eth0(VM2)
+    ```
+    > Gói tin **KHÔNG ĐI QUA** card `ens33` của host KVM
+    
