@@ -51,7 +51,7 @@
         ```
 ## **4) Cách cài đặt Bridge** :
 ### **Mô hình**
-<img src=https://i.imgur.com/gIuU9QT.png>
+<img src=https://i.imgur.com/APGZ4Mw.png>
 
 ### **Thực hiện**
 - **B1 :** Trên máy KVM, tạo **bridge** :
