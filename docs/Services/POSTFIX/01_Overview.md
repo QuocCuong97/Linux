@@ -1,0 +1,2 @@
+# Tổng quan về Postfix
+- **Postfix** là một phầm mềm nguồn mở được dùng để gửi mail (***Mail Transfer Agent-MTA***). Được phát hành bởi **IBM** với mục tiêu thay thế trình gửi mail phổ biến là `sendmail`.
