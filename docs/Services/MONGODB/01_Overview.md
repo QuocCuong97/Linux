@@ -14,21 +14,17 @@
 - **Document** : Một bản ghi thuộc một **Collection** thì được gọi là một **Document**. Các **Document** lần lượt bao gồm các trường key và value.
 - **Field** : Là một cặp ***key - value*** trong một **document**. Một **document** có thể có không hoặc nhiều **field**. Các **field** giống các **column** ở cơ sở dữ liệu quan hệ.
 
-| RDBMS | MongoDB | 
-|-------|---------| 
-| Database | Database | 
-| Table | Collection| 
-| Tuple/Row | Document| 
-| Column | Field |
-| Table Join | Embedded Documents |
- Primary Key | Primary Key (mặc định là `_id`) |
+    | RDBMS | MongoDB | 
+    |-------|---------| 
+    | Database | Database | 
+    | Table | Collection| 
+    | Tuple/Row | Document| 
+    | Column | Field |
+    | Table Join | Embedded Documents |
+    Primary Key | Primary Key (mặc định là `_id`) |
 ## **3) Lợi ích của MongoDB so với RDBMS**
-- Ít cấu trúc (**schema**) hơn : **MongoDB** là một document database gồm các collection chứa cac document khác nhau. Số lượng field, content và kích cỡ của document này có thể khác với các document khác .
-- Cấu trúc của một object rất rõ ràng .
-- Join đơn giản hơn .
-- Khả năng query sâu hơn. **MongoDB** hỗ trợ các câu query động sử dụng ***document-based query language*** gần tương đương như **SQL** .
-- Cơ chế Tuning .
-- Dễ dàng mở rộng (**scale-out**)
-- Conversion/mapping of application objects to database objects not needed.
-- Uses internal memory for storing the (windowed) working set, enabling faster access of data.
-
+- Ít schema hơn: Vì schema được sinh ra là để nhóm các đối tượng vào 1 cụm, dễ quản lý. Ví dụ như tạo 1 schema tên là Students chẳng hạn thì chỉ có những gì liên quan đến student thì mới được cho vào schema này. Trong khi đó trong mongodb thì chỉ 1 collection ta có thể chứa nhiều document khác nhau . Với mỗi document thì số trường, nội dung, kích thước lại có thể khác nhau.
+- Cấu trúc của một đối tượng rõ ràng.
+- Không có các Join phức tạp.
+- Khả năng mở rộng cực lớn: việc mở rộng dữ liệu mà không phải lo đến các vấn đề như khóa ngoại, khóa chính, kiểm tra ràng buộc, ... MongoDB cho phép thực hiện replication và sharding nên việc mở rộng cũng thuận lợi hơn.
+- Sử dụng bộ nhớ trong để lưu giữ cửa sổ làm việc cho phép truy cập dữ liệu nhanh hơn. Việc cập nhật được thực hiện nhanh gọn nhờ update tại chỗ (in-place).
