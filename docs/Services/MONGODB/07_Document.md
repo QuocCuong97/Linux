@@ -294,7 +294,59 @@
     WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
     ```
 #### **Phương thức `findOneAndUpdate()`**
+- Phương thức `findOneAndUpdate()` dùng để update giá trị trong document có sẵn .
+- Cú pháp :
+    ```
+    > db.COLLECTION_NAME.findOneAndUpdate(SELECTIOIN_CRITERIA, UPDATED_DATA)
+    ```
+- **VD :**
+    ```
+    > db.movie.findOneAndUpdate({"name": "The Avengers"}, {$set: {"year": "2015"}})
+    {
+            "_id" : ObjectId("5f801fb93f4a3bdc6655972f"),
+            "name" : "The Avengers",
+            "director" : "Russos",
+            "year" : "2012"
+    }
+    ```
 #### **Phương thức `updateOne()`**
+- Phương thức `updateOne()` update một document match với filter cho trước .
+- Cú pháp :
+    ```
+    > db.COLLECTION_NAME.updateOne(<filter>, <update>)
+    ```
+- **VD :**
+    ```
+    > db.movie.updateOne({"name": "The Avengers"}, {$set: {"year": "2012"}})
+    { "acknowledged" : true, "matchedCount" : 1, "modifiedCount" : 1 }
+    ```
 #### **Phương thức `updateMany()`**
+- Phương thức `updateMany()` update một document match với filter cho trước .
+- Cú pháp :
+    ```
+    > db.COLLECTION_NAME.updateMany(<filter>, <update>)
+    ```
+- **VD :**
+    ```
+    > db.movie.updateMany({"name": "IronMan"}, {$set: {"year": "2010"}})
+    { "acknowledged" : true, "matchedCount" : 2, "modifiedCount" : 2 }
+    ```
 ### **DELETE DOCUMENT**
 #### **Phương thức `remove()`**
+- Phương thức `remove()` được sử dụng để xóa document khỏi collection.
+- Phương thức `remove()` chấp nhận 2 tham số :
+    - `DELETION_CRITERIA` (tùy chọn) : điều kiện lọc để document bị xóa
+    - `justOne` (tùy chọn) : nếu set là `true` hoặc `1`, sẽ chỉ 1 document bị xóa
+- Cú pháp :
+    ```
+    > db.COLLECTION_NAME.remove(DELLETION_CRITTERIA)
+    ```
+- **VD1 :** Xóa tất cả các document :
+    ```
+    > db.movie.remove({"name": "Captain America"})
+    WriteResult({ "nRemoved" : 2 })
+    ```
+- **VD2 :** Xóa document đầu tiên tìm được :
+    ```
+    > db.movie.remove({"name": "IronMan"},1)
+    WriteResult({ "nRemoved" : 1 })
