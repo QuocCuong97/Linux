@@ -2,7 +2,7 @@
 ## **1) Cài đặt trên CentOS 7**
 - **B1 :** Thêm repo của **MongoDB** :
     ```
-    # vi /etc/yum.repos.d/mongodb-org.repo
+    # vi /etc/yum.repos.d/mongodb-org-4.4.repo
     ```
     - Thêm vào đoạn sau :
         ```
@@ -13,7 +13,7 @@
         enabled=1
         gpgkey=https://www.mongodb.org/static/pgp/server-4.4.asc
         ```
-- **B2 :**
+- **B2 :** Cập nhật repo vừa add
     ```
     # yum repolist
     ```
@@ -21,33 +21,46 @@
     ```
     # yum install -y mongodb-org
     ```
-- **B4 :** 
+<!-- - **B4 :** 
     ```
     # vi /etc/security/limits.d/20-nproc.conf
     ```
     - Thêm vào cuối file :
         ```
         mongod     soft    nproc     32000
-        ```
-- **B5 :** Khởi động dịch vụ `mongod` :
+        ``` -->
+- **B4 :** Khởi động dịch vụ `mongod` :
     ```
     # systemctl enable mongod
     # systemctl start mongod
     ```
-- **B6 :** Truy cập **MongoDB** :
+- **B5 :** Truy cập **MongoDB** :
     ```
     # mongo
     ```
     <img src=https://i.imgur.com/TaZeSn5.png>
 
 ## **2) Cài đặt trên Ubuntu**
-- **B1 :** Update các package đang có :
+- **B1 :** Import Public key :
+    ```
+    $ wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -
+    ```
+- **B2 :** Tạo source list :
+    - Trên Ubuntu 20.04 :
+        ```
+        $ echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/4.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
+        ```
+    - Trên Ubuntu 18.04 :
+        ```
+        $ echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
+        ```
+- **B3 :** Reload lại các package database :
     ```
     $ sudo apt-get update -y
     ```
-- **B2 :** Cài đặt MongoDB :
+- **B4 :** Cài đặt **MongoDB** :
     ```
-    $ sudo apt install -y mongodb
+    $ sudo apt-get install -y mongodb-org
     ```
 - **B3 :** Khởi động dịch vụ và cho phép dịch vụ khởi động cùng hệ thống :
     ```
@@ -57,9 +70,9 @@
 - **B4 :** Truy cập Mongo :
     ```
     $ mongo
-    MongoDB shell version v3.6.3
+    MongoDB shell version v4.4
     connecting to: mongodb://127.0.0.1:27017
-    MongoDB server version: 3.6.3
+    MongoDB server version: 4.4
     Welcome to the MongoDB shell.
     For interactive help, type "help".
     For more comprehensive documentation, see
