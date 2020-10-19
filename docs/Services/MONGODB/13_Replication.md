@@ -486,4 +486,53 @@
     ```
     > `[0]` là thứ tự của host trong `status()` hoặc `conf()`. Có thể thay đổi
 ## **6) Connection String URI Format**
-https://docs.mongodb.com/manual/reference/connection-string/
+### **6.1) Standard Connection String Format**
+- Định dạng connection URI này được sử dụng để connect đến các mô hình : **standalone**, **replica set** hoặc **sharded cluster** .
+- Định dạng URI sẽ có cấu trúc sau :
+    ```
+    mongodb://[username:password@]host1[:port1][,...hostN[:portN]][/[defaultauthdb][?options]]
+    ```
+    - Trong đó :
+        - `mongodb://` : phần prefix bắt buộc để nhận dạng standard connection
+        - `username:password@` : thông tin xác thực (không bắt buộc)
+            - Nếu được chỉ định, client sẽ xác thực user trên `authSource`. Nếu `authSource` không được chỉ định, client sẽ xác thực trên `defaultauthdb`. Nếu `defaultauthdb` không được chỉ định, sẽ xác thực trên database `admin`
+            - Nếu username hoặc password có chứa các ký tự `@`, `:`, `/`, `%`, sử dụng [percent encoding](https://tools.ietf.org/html/rfc3986#section-2.1)
+        - `host[:port]` : Host (và tùy chọn port) mà `mongod` instance (hoặc `mongos` instance cho cluster) đang chạy. Có thể chỉ định hostname, IP hoặc UNIX domain socket. Nếu không chỉ định `port`, mặc định sử dụng `27017` .
+        - `/defaultauthdb` : tên database xác thực
+        - `?<options>` : [Tham khảo thêm](https://docs.mongodb.com/manual/reference/connection-string/#connections-connection-options)
+- **VD :**
+    - Kết nối **Standalone** :
+        ```
+        mongodb://mongodb0.example.com:27017
+        ```
+        hoặc
+        ```
+        mongodb://myDBReader:Password123@mongodb0.example.com:27017/?authSource=admin
+        ```
+    - Kết nối **Replica Set** : kết nối `mongod` instance trong **Replica Set** :
+        ```
+        mongodb://mongodb0.example.com:27017,mongodb1.example.com:27017,mongodb2.example.com:27017/?replicaSet=myRepl
+        ```
+        hoặc
+        ```
+        mongodb://myDBReader:Password123@mongodb0.example.com:27017,mongodb1.example.com:27017,mongodb2.example.com:27017/?authSource=admin&replicaSet=myRepl
+        ```
+    - Kết nối **Sharded Cluster** : kết nối `mongos` instance :
+        ```
+        mongodb://mongos0.example.com:27017,mongos1.example.com:27017,mongos2.example.com:27017
+        ```
+        hoặc
+        ```
+        mongodb://myDBReader:Password123@mongos0.example.com:27017,mongos1.example.com:27017,mongos2.example.com:27017/?authSource=admin
+        ```
+- Cách kết nối **Mongo Shell** sử dụng connection string URI :
+    ```
+    mongo <mongo_connection_URI>
+    ```
+    - **VD :**
+        ```
+        mongo mongodb://mongodb0.example.com:27017
+        ```
+### **6.2) DNS Seed List Connection Format**
+- [Tham khảo thêm](https://docs.mongodb.com/manual/reference/connection-string/#dns-seed-list-connection-format)
+- 

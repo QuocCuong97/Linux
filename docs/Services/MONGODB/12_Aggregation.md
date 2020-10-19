@@ -37,5 +37,3 @@
     | `$last` | Gets the last document from the source documents according to the grouping. Typically this makes only sense together with some previously applied “$sort”-stage. | `db.movie.aggregate([{$group : {_id : "$by_user", last_url : {$last : "$url"}}}])` |
 ### **Pipeline Concept**
 - Trong **UNIX**, pipeline có nghĩa là khả năng thực hiện một hành động dựa trên input và trả ra output được coi như input của lệnh sau,... . **MongoDB** cũng hỗ trợ concept tương tự khi sử dụng **aggregation**
-
-In UNIX command, shell pipeline means the possibility to execute an operation on some input and use the output as the input for the next command and so on. MongoDB also supports same concept in aggregation framework. There is a set of possible stages and each of those is taken as a set of documents as an input and produces a resulting set of documents (or the final resulting JSON document at the end of the pipeline). This can then in turn be used for the next stage and so on.
