@@ -535,4 +535,47 @@
         ```
 ### **6.2) DNS Seed List Connection Format**
 - [Tham khảo thêm](https://docs.mongodb.com/manual/reference/connection-string/#dns-seed-list-connection-format)
-- 
+
+## **7) Read Preferences**
+- Mặc định, application sẽ điều hướng read request đến **primary member** của **replica set**. Read request chỉ từ **primary** gọi là ***strict consistency*** với ý nghĩa application sẽ luôn lấy data state mới nhất .
+- Nếu application không yêu cầu luôn trả về phiên bản mới nhất của data thì có thể điều chỉnh read preference của **mongoDB** để scale out read . Read từ **secondary** gọi là ***eventual consistency*** với ý nghĩa rồi cuối cùng thì thế nào data state trên secondary cũng đồng nhất với **primary**.
+<p align=center><img src=https://i.imgur.com/mM8YnlE.png width=40%></p>
+
+- Các mode **read preference** :
+    - **primary** : mặc định, mọi read request sẽ chỉ đi đến **primary**
+    - **primaryPreferred** : mọi read request sẽ đi đến **primary** nhưng nếu primary không khả dụng nó sẽ đi đến **secondary**
+    - **secondary** : mọi read request sẽ chỉ đi đến **secondary**
+    - **secondaryPreferred** : mọi read request sẽ đi đến **secondary** nhưng nếu tất cả các **secondary** đều không khả dụng nó sẽ đi đến **primary**.
+    - **nearest** : read request sẽ đến member có network latency thấp nhất không phân biệt member đó là **primary** hay **secondary**.
+- Các member trong **Replica set** có thể lag so với **primary** do nghẽn mạng, băng thông disk thấp, ... Tùy chọn `maxStalenessSeconds` cho phép chỉ định khoảng thời gian lag tối đa để read từ các **secondary**. Khi độ trễ ước tính của **secondary** vượt quá `maxStalenessSeconds`, client sẽ ngưng hoạt động read từ nó
+- **VD1 :** Truy vấn với read preference `nearest` :
+    ```
+    > db.movie.find().readPref('nearest')
+    ```
+- **VD2 :** Khai báo read preference từ connection URI :
+    ```
+    mongodb://mongos1.example.com,mongos2.example.com/?readPreference=secondary&maxStalenessSeconds=120
+    ```
+## **8) Write concern**
+
+https://kipalog.com/posts/Replica-set-trong-MongoDB
+
+## **9) Các kiểu secondary member trong Replica set**
+### **9.1) Priority 0 Replica Set Members**
+- Là một secondary member không bao giờ có thể trở thành primary được, cũng không thể tự tạo một event bầu chọn primary, tuy nhiên vẫn có thể tham gia vào quá trình voting. 
+- Vai trò của **priority 0 member** giống như một ***standby member*** được dùng để thay thế các **secondary member** không khả dụng . 
+<p align=center><img src=https://i.imgur.com/NQVIJRm.png width=40%></p>
+
+- Một trường hợp khác mà **priority 9 member** được dùng là khi các member có thông số hardware mạnh yếu khác nhau. Các member khỏe hơn có thể được đẩy lên làm **primary** cho failover. Các member yếu hơn thì có thể giữ ở vị trí **secondary**
+### **9.2) Hidden Replica Set Members**
+- Cũng là một **priority 0 member** nên nó không thể trở thành **primary** tuy nhiên vẫn tham gia vào quá trình voting. 
+- Điểm khác biệt là dạng member này hoàn toàn ẩn đi đối với client. Client sẽ không gửi request đến **hidden member** do đó ngoài quá trình **replication**, trên **hidden member** không còn traffic nào khác. Vì vậy có thể sử dụng **hidden member** trong vai trò backup hoặc reporting server. Tuy nhiên sử dụng với vai trò backup thì cũng có rủi ro vì nó vẫn là bản sao của **primary**. Giả sử một developer vô tình xóa 1 document khỏi collection trên **primary** thì quá trình này cũng xảy ra trên **hidden member**, vậy sẽ không có ý nghĩa backup nữa.
+<p align=center><img src=https://i.imgur.com/EXK4Vvu.png width=40%></p>
+
+### **9.3) Delayed Replica Set Members**
+- Là một **priority 0**, và cũng là **hidden member**, vẫn tham gia vào quá trình voting khi failover. Đây là loại member sẽ giải quyết hoàn hảo các vấn đề của 2 loại member trên.
+- **Delay member** cũng replicate data từ oplog của **primary** như các **secondary** khác nhưng có khác một chút là data set của **delay member** luôn cũ hơn của **primar** một khoảng thời gian nhất định. Khoảng thời gian này gọi là `slaveDelay` và có thể cấu hình được .
+<p align=center><img src=https://i.imgur.com/k7w6ZSH.png width=40%></p>
+
+- Như vậy, nếu có một sự cố vô ý mất dữ liệu do thao tác sai, thì ta vẫn có thể có cơ hội recover lại dữ liệu trước đó . Tuy nhiên, lượng data cũng sẽ bị hụt đi trong khoảng thời gian `slaveDelay` đó .
+> Mỗi loại secondary member đều có ưu và nhược điểm của nó cùng các use case để sử dụng khác nhau
