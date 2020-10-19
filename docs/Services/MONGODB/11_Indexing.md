@@ -87,3 +87,7 @@
         ```
     
 This method returns the description of all the indexes int the collection.
+
+
+https://kipalog.com/posts/Toi-uu-hieu-suat-MongoDB-bang-cach-quan-ly-index
+https://viblo.asia/p/gioi-thieu-ve-indexes-trong-mongodb-E7bGo9oOR5e2
