@@ -28,10 +28,22 @@
 - [Tham khảo thêm về sharding key](https://docs.mongodb.com/manual/core/sharding-shard-key/#sharding-shard-key-indexes)
 - [Tham khảo thêm về cách lựa chọn shard key](https://docs.mongodb.com/manual/core/sharding-shard-key/#sharding-shard-key-selection)
 ### **2.4) Chunk**
-- **MongoDB** chia các sharded data ra thành các **chunk**. **Chunk** bao gồm 1 phần phía dưới và 1 phần phía trên dựa trên **shard key** .
+- **MongoDB** chia các sharded data ra thành các **chunk**. Mặc định **Chunk Size** là `64Mb` .
+<p align=center><img src=https://i.imgur.com/W9QWADr.png width=40%></p>
+
 ### **2.5) Balancer and Even Chunk Distribution**
 - Để phân phối đồng đều được các chunk trên tất cả các **shard** trong **cluster**, một **balancer** sẽ chạy ngầm để migrate các **chunk** trên các **shard** .
+- **Chunk split** : là tiến trình chia cắt khi **Chunk** tăng đến giới hạn **(Chunk Size)** hoặc khi số lượng Document trong Chunk vượt quá tham số `Maximum Number of Documents Per Chunk to Migrate`. Dựa trên **Shard Key**, **MongoDB** sẽ tiến hành chia cắt thành nhiều **Chunk** nếu cần .
+<p align=center><img src=https://i.imgur.com/ujEyer9.png width=30%></p>
+
+- **Chunk Migration** : **MongoDB** chuyển đổi **Chunk** để phân bố lại chunk của Shard Collection. Việc này cũng như việc chúng ta Defragment lại ổ cứng trên Window. **MongoDB** hỗ trợ 2 phương pháp để làm được việc này:
+    - **Manual:** Chỉ nên sử dụng trong một số trường hợp nhất định như phân tán dữ liệu sử dụng Bulk Insert
+    - **Automatic:** Thông qua tiến trình **Balancer** tự động Migrate lại **chunk** khi có sự phân bố không đều giữa các **chunk** trên các **Shards**
+- **Balancer** là một tiến trình chạy ngầm quản lý **chunk migration**. Nếu có sự chênh lệch số **số chunk** giữa shard lớn nhất và nhỏ nhất đạt đến **migration threshold**, **balancer** sẽ bắt đầu migrate **chunk** trên cluster để đảm bảo việc phân phối đều dữ liệu .
+<p align=center><img src=https://i.imgur.com/DLwSWCM.png width=40%></p>
+
 - [Tham khảo Data Partition with Chunks](https://docs.mongodb.com/manual/core/sharding-data-partitioning/)
+- [Tham khảo về Balancer](https://docs.mongodb.com/manual/core/sharding-balancer-administration/#sharding-balancing)
 ### **2.6) Thuận lợi của Sharding**
 #### **Read/Write**
 - **MongoDB** phân phối tải đọc và ghi đều trên các **shard** trên các **sharded cluster**, cho phép mỗi **shard** sử lý một mảng của toàn bộ hoạt động . Cả tải địc và ghi đều có thể mở rộng theo chiều ngang trên cluster bằng việc thêm vào nhiều **shard** hơn .
@@ -52,17 +64,62 @@
 
 <p align=center><img src=https://i.imgur.com/Mh9EsNC.png width=40%></p>
 
-### **2.9) Connecting to a Sharded Cluster**
+### **2.9) Kết nối tới Sharded Cluster**
 - Cần phải kết nối tới **mongos router** để tương tác với bất cứ collection nào trong **sharded cluster**, bao gồm cả ***sharded*** và ***unsharded*** collection. Client không nên kết nối vào 1 **shard** đơn lẻ để thực hiện thao tác read hoặc write .
-
 <p align=center><img src=https://i.imgur.com/pzV3G98.png width=40%></p>
 
 - Có thể connect tới **mongos** giống như cách kết nối tới `mongod`, sử dụng mongo shell hoặc MongoDB driver .
 ### **2.10) Phương pháp sharding**
 - **MongoDB** hỗ trợ 2 phương pháp **sharding** để phân phối data trên các sharded cluster .
 #### **2.10.1) Hashed Sharding**
-- **Hashed Sharding** đòi hỏi việc tính toán hàm băm của giá trị trường **shard key**. Mỗi **chunk** sau đó sẽ được gán một dãy mã dựa trên giá trị **shard key** đã được hash .
+- **Hashed Sharding** đòi hỏi việc tính toán hàm băm của giá trị trường **shard key**. Mỗi **chunk** sau đó sẽ được gán một range dựa trên giá trị **shard key** đã được hash .
+<p align=center><img src=https://i.imgur.com/mN8Rs9x.png width=50%></p>
 
-    <p align=center><img src=https://i.imgur.com/mN8Rs9x.png width=50%></p>
-
+- Cách này giúp đảm bảo document phân tán được triệt để hơn
+- [Tìm hiểu thêm về Hashed Sharding](https://docs.mongodb.com/manual/core/hashed-sharding/)
 #### **2.10.2) Ranged sharding** 
+- **Ranged sharding** đòi hỏi việc chia dữ liệu dựa trên giá trị của **shard key**. Mỗi **chunk** sẽ được gán vào một range dựa trên giá trị của **shard key** .
+<p align=center><img src=https://i.imgur.com/pZXWZA1.png width=50%></p>
+
+- **VD :** shardA chiến từ -10 đến 10. shardB chiếm từ 11 đến 31 chẳng hạn
+- Một dãy các **shard key** có giá trị gần nhau gần như sẽ được sắp xếp trên một **chunk**. Điều này giúp cho các tác vụ tìm đúng mục tiêu vì một **mongos** có thể định tuyến tác vụ tới đúng **shard** chứa dữ liệu cần tìm.
+- Hiệu suất của **ranged sharding** dựa trên **shard key** được chọn. Cân nhắc **shard key** không kỹ lưỡng có thể dẫn đến việc phân phối data không đồng đều, làm trái với mục tiêu của **sharding** hoặc gây ra hiện tượng nghẽn cổ chai.
+- [Tham khảo thêm về Ranged Sharding](https://docs.mongodb.com/manual/core/ranged-sharding/)
+### **2.11) Zones trong Sharded Cluster**
+- **Zones** có thể giúp cải thiện việc định vị dữ liệu trên các **shard cluster** trên các **data center** khác nhau .
+- Trên **shard cluster**, có thể tạo zone các sharded data dựa trên **shard key**. Có thể liên kết mỗi **zone** với 1 hoặc nhiều **shard** trong cluster. Mỗi **shard** cũng có thể kết nối tới nhiều **zone**. 
+- Trong mỗi balanced cluster, **MongoDB** chỉ migrate các **chunk** trong một **zone** đến các **shard** liên kết đến **zone** đó .
+- Mỗi **zone** bao gồm 1 hoặc nhiều range giá trị **shard key**. Mỗi range trong một **zone** luôn bao gồm cả biên trên và biên dưới của nó .
+<p align=center><img src=https://i.imgur.com/XU7TGDt.png width=50%></p>
+
+- Phải sử dụng các field có chứa **shard key** khi định nghĩa mới một range trong **zone**. Nếu sử dụng **compound shard key**, range phải chứa prefix của **shard key**
+- [Tham khảo thêm về shard key trong zone](https://docs.mongodb.com/manual/core/zone-sharding/#zone-sharding-shard-key)
+- [Tham khảo thêm về zone](https://docs.mongodb.com/manual/core/zone-sharding/#zone-sharding)
+### **2.12) Collations in Sharding**
+- [Tham khảo thêm](https://docs.mongodb.com/manual/reference/command/shardCollection/#dbcmd.shardCollection)
+## **3) Deploy Sharded Cluster**
+### **Mô hình**
+<img src=https://i.imgur.com/yCKlNex.png>
+
+### **Cài đặt MongoDB**
+- **B1 :** Khai báo hostname cho các node :
+    ```
+    # hostnamectl set-hostname [mongodb_{n}]
+    # bash
+    ```
+- **B2 :** Khai báo file `/etc/hosts` trên các node :
+    - Trên `rs1` :
+        ```
+        # echo "127.0.0.1 localhost" > /etc/hosts
+        # echo "10.5.11.101 mongodb_1" >> /etc/hosts
+        # echo "10.5.11.102 mongodb_2" >> /etc/hosts
+        # echo "10.5.11.103 mongodb_3" >> /etc/hosts
+        ```
+    - Trên `rs2` :
+        ```
+        # echo "127.0.0.1 localhost" > /etc/hosts
+        # echo "10.5.11.104 mongodb_4" >> /etc/hosts
+        # echo "10.5.11.105 mongodb_5" >> /etc/hosts
+        # echo "10.5.11.106 mongodb_6" >> /etc/hosts
+        ```
+- **B3 :** Cài đặt **MongoDB `4.4`** trên tất cả các node. [Tham khảo](https://github.com/QuocCuong97/Linux/blob/master/docs/Services/MONGODB/02_Installation.md)

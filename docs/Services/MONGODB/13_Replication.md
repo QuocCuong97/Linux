@@ -561,7 +561,25 @@
 - Mặc định, application chỉ có thể biết được write request có thành công không trên **primary**, không thể biết được liệu write request đã được replicate thành công đến các **secondary** chưa .
 <p align=center><img src=https://i.imgur.com/oHIykmi.png width=40%></p>
 
-- **MongoDB** cho phép thay đổi hành vi mặc định của write concern. Application có thể lựa chọn thay đổi write concern ngay trong 
+- **MongoDB** cho phép thay đổi hành vi mặc định của write concern. Application có thể lựa chọn thay đổi write concern ngay trong write request. Hành vi **write concern** thay đổi chỉ áp dụng cho write request này.
+- Từ vị trí application, nếu không áp dụng **write concern** hợp lý thì có thể dẫn đến việc write set bị mất khi thực hiện failover. Giả sử application dùng **write concern** mặc định nên kết quả trả về ngay sau khi **primary** xử lý xong write set nhưng có thể vì lý do nào đó mà write set đó chưa được replicate sang **secondary**. Phía application sẽ không biết điều này. Chẳng may tại thời điểm chưa kịp replicate sang các **secondary**, **primary** down, failover được thực hiện tự động, một **secondary** lên làm **primary** nhưng **secondary** này sẽ không có write set đó = > Dữ liệu bị mất .
+- **VD1 :** Thay đổi **write concern** trên 1 request :
+    ```
+    > db.products.insert(
+        { item: "envelopes", qty : 100, type: "Clasp" },
+        { writeConcern: { w: 2, wtimeout: 5000 } }
+    )
+    ```
+    - Write request này sẽ insert một item vào collection `products` và sẽ được trả về sau khi request thực hiện trên **primary** và ít nhất một **secondary** nữa (`w: 2`) hoặc nếu không có response trả về thì sẽ kết thúc trong vòng `5s` (`wtimeout: 5000`). Giá trị `wtimeout` tránh cho write request bị block lại quá lâu nếu như không đủ số member mà **write concern** cần.
+- **VD2 :** Thay đổi **write concern** trên tất cả các write request :
+    ```
+    > cfg = rs.conf()
+    > cfg.settings = {}
+    > cfg.settings.getLastErrorDefaults = { w: "majority", wtimeout: 5000}
+    > rs.reconfig(cfg)
+    ```
+    - Cấu hình trên sẽ yêu cầu **MongoDB** trả về kết quả sau khi write request được hoàn thành trên số lượng "`majority`" member hoặc trả về muộn nhất sau `5s`. "`Majority`" member là phần member chiếm nhiều hơn (quá nửa) trong một **replica set** (**VD :** trên một **replica set** có `5` member thì sẽ có `majority = 3` - gồm `1` **primary** và `2` **secondary** ). `Majority` sẽ luôn chứa **primary**. 
+
 https://kipalog.com/posts/Replica-set-trong-MongoDB
 
 ## **9) Các kiểu secondary member trong Replica set**
@@ -576,6 +594,14 @@ https://kipalog.com/posts/Replica-set-trong-MongoDB
 - Điểm khác biệt là dạng member này hoàn toàn ẩn đi đối với client. Client sẽ không gửi request đến **hidden member** do đó ngoài quá trình **replication**, trên **hidden member** không còn traffic nào khác. Vì vậy có thể sử dụng **hidden member** trong vai trò backup hoặc reporting server. Tuy nhiên sử dụng với vai trò backup thì cũng có rủi ro vì nó vẫn là bản sao của **primary**. Giả sử một developer vô tình xóa 1 document khỏi collection trên **primary** thì quá trình này cũng xảy ra trên **hidden member**, vậy sẽ không có ý nghĩa backup nữa.
 <p align=center><img src=https://i.imgur.com/EXK4Vvu.png width=40%></p>
 
+- Cấu hình một **secondary** thành **Hidden member** :
+    ```
+    > cfg = rs.conf()
+    > cfg.members[0].priority = 0
+    > cfg.members[0].hidden = true
+    > rs.reconfig(cfg)
+    ```
+- Sau khi cấu hình **hidden member**, sẽ không thể nhìn thấy member đó trong output của lệnh `db.isMaster()` nữa
 ### **9.3) Delayed Replica Set Members**
 - Là một **priority 0**, và cũng là **hidden member**, vẫn tham gia vào quá trình voting khi failover. Đây là loại member sẽ giải quyết hoàn hảo các vấn đề của 2 loại member trên.
 - **Delay member** cũng replicate data từ oplog của **primary** như các **secondary** khác nhưng có khác một chút là data set của **delay member** luôn cũ hơn của **primar** một khoảng thời gian nhất định. Khoảng thời gian này gọi là `slaveDelay` và có thể cấu hình được .
@@ -583,3 +609,11 @@ https://kipalog.com/posts/Replica-set-trong-MongoDB
 
 - Như vậy, nếu có một sự cố vô ý mất dữ liệu do thao tác sai, thì ta vẫn có thể có cơ hội recover lại dữ liệu trước đó . Tuy nhiên, lượng data cũng sẽ bị hụt đi trong khoảng thời gian `slaveDelay` đó .
 > Mỗi loại secondary member đều có ưu và nhược điểm của nó cùng các use case để sử dụng khác nhau
+- Cấu hình **Delayed member** :
+    ```
+    > cfg = rs.conf()
+    > cfg.members[0].priority = 0
+    > cfg.members[0].hidden = true
+    > cfg.members[0].slaveDelay = 3600
+    > rs.reconfig(cfg)
+    ```
