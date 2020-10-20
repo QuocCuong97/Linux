@@ -143,7 +143,7 @@
         ```yaml
         ...
         net:
-            bindIp: localhost,<IP_node>
+            bindIp: localhost,<hostname(s)|ip address(es)>
         ...
         replication:
             replSetName: "rs0"
@@ -155,7 +155,7 @@
     ```
 - **B5 :** Trên một node bất kỳ, khởi tạo **replica set**:
     ```
-    # mongo --host rs0/localhost:27017
+    # mongo
     > rs.initiate()
     {
             "info2" : "no configuration specified. Using a default configuration for the set",

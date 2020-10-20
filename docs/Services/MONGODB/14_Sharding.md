@@ -123,3 +123,154 @@
         # echo "10.5.11.106 mongodb_6" >> /etc/hosts
         ```
 - **B3 :** Cài đặt **MongoDB `4.4`** trên tất cả các node. [Tham khảo](https://github.com/QuocCuong97/Linux/blob/master/docs/Services/MONGODB/02_Installation.md)
+### **Cấu hình ConfigServer**
+> Mô hình mang tính HA cao nhất là có cụm ít nhất 3 **ConfigServer** tạo thành 1 replica set. Bài lab này sẽ chỉ lab trên **Standalone**
+- **B1 :** Khai báo clusterRole :
+    ```
+    # vi /etc/mongo.conf
+    ```
+    - Chỉnh sửa nội dung sau:
+        ```yaml
+        ...
+        net:
+            bindIp: localhost,<hostname(s)|ip address(es)>
+        ...
+        sharding:
+            clusterRole: configsvr
+        ...
+        ```
+- **B2 :** Khởi động lại dịch vụ `mongod` :
+    ```
+    # systemctl restart mongod
+    ```
+### **Cấu hình các Shard (các Replica Set)**
+- Cấu hình **`rs1`** (trên các node `mongodb_1`, `mongodb_2`, `mongodb_3`)
+    - **B1 :** Khai báo tên **replica set** và **bind IP** trên cả 3 node :
+        ```
+        # vi /etc/mongod.conf
+        ```
+        - Chỉnh sửa nội dung sau:
+            ```yaml
+            ...
+            net:
+                bindIp: localhost,<hostname(s)|ip address(es)>
+            ...
+            replication:
+                replSetName: "rs1"
+
+            sharding:
+                clusterRole: shardsvr
+            ...
+            ```
+    - **B2 :** Khởi động lại dịch vụ `mongod` :
+        ```
+        # systemctl restart mongod
+        ```
+    - **B3 :** Trên node `mongodb_1`, khởi tạo replica set :
+        ```
+        # mongo
+        > rs.initiate()
+        > rs.add('10.5.11.102:27017')
+        > rs.add('10.5.11.103:27017')
+        ```
+    - **B4 :** Kiểm tra lại các member trong replica set :
+        ```
+        rs1:PRIMARY> rs.status()
+        {
+                "set" : "rs1",
+                ......
+                "members" : [
+                        {
+                                "_id" : 0,
+                                "name" : "10.5.11.101:27017",
+                                "health" : 1,
+                                "state" : 1,
+                                "stateStr" : "PRIMARY",
+                                ....
+                        },
+                        {
+                                "_id" : 1,
+                                "name" : "10.5.11.102:27017",
+                                "health" : 1,
+                                "state" : 2,
+                                "stateStr" : "SECONDARY",
+                                ....
+                        },
+                        {
+                                "_id" : 2,
+                                "name" : "10.5.11.103:27017",
+                                "health" : 1,
+                                "state" : 2,
+                                "stateStr" : "SECONDARY",
+                                ....
+                        }
+                ],
+                ....
+        }
+        ```
+- Cấu hình **`rs2`** (trên các node `mongodb_4`, `mongodb_5`, `mongodb_6`)
+    - **B1 :** Khai báo tên **replica set** và **bind IP** trên cả 3 node :
+        ```
+        # vi /etc/mongod.conf
+        ```
+        - Chỉnh sửa nội dung sau:
+            ```yaml
+            ...
+            net:
+                bindIp: localhost,<hostname(s)|ip address(es)>
+            ...
+            replication:
+                replSetName: "rs2"
+            
+            sharding:
+                clusterRole: shardsvr
+            ...
+            ```
+    - **B2 :** Khởi động lại dịch vụ `mongod` :
+        ```
+        # systemctl restart mongod
+        ```
+    - **B3 :** Trên node `mongodb_4`, khởi tạo replica set :
+        ```
+        # mongo
+        > rs.initiate()
+        > rs.add('10.5.11.105:27017')
+        > rs.add('10.5.11.106:27017')
+        ```
+    - **B4 :** Kiểm tra lại các member trong replica set :
+        ```
+        rs2:PRIMARY> rs.status()
+        {
+                "set" : "rs2",
+                ......
+                "members" : [
+                        {
+                                "_id" : 0,
+                                "name" : "10.5.11.104:27017",
+                                "health" : 1,
+                                "state" : 1,
+                                "stateStr" : "PRIMARY",
+                                ....
+                        },
+                        {
+                                "_id" : 1,
+                                "name" : "10.5.11.105:27017",
+                                "health" : 1,
+                                "state" : 2,
+                                "stateStr" : "SECONDARY",
+                                ....
+                        },
+                        {
+                                "_id" : 2,
+                                "name" : "10.5.11.106:27017",
+                                "health" : 1,
+                                "state" : 2,
+                                "stateStr" : "SECONDARY",
+                                ....
+                        }
+                ],
+                ....
+        }
+        ```
+### **Cấu hình Mongos**
+- **B1 :**
