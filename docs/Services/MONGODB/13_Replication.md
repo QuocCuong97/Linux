@@ -557,7 +557,11 @@
     mongodb://mongos1.example.com,mongos2.example.com/?readPreference=secondary&maxStalenessSeconds=120
     ```
 ## **8) Write concern**
+- **Write concern** cho **replica set** mô tả số ***data-bearing member*** - node mang data (như **primary** và **secondary**, không phải **arbiter**) sẽ phải xác nhận việc write request thực hiện thành công.
+- Mặc định, application chỉ có thể biết được write request có thành công không trên **primary**, không thể biết được liệu write request đã được replicate thành công đến các **secondary** chưa .
+<p align=center><img src=https://i.imgur.com/oHIykmi.png width=40%></p>
 
+- **MongoDB** cho phép thay đổi hành vi mặc định của write concern. Application có thể lựa chọn thay đổi write concern ngay trong 
 https://kipalog.com/posts/Replica-set-trong-MongoDB
 
 ## **9) Các kiểu secondary member trong Replica set**
