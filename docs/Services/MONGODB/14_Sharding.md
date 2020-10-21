@@ -15,7 +15,7 @@
     - **mongos** : hay còn được gọi là **query routers**, về cơ bản nó là mongo instance, cung cấp interface giữa client application và **sharded cluster**. Một **shared cluster** có thể chứa nhiều hơn một **mongos** để phân chia tải từ client. Một client sẽ gửi request đến 1 **mongos**. Nói chung 1 **shared cluster** sẽ có nhiều **mongos** . Từ bản `4.4` trở đi **mongos** có thể hỗ trợ **hedged reads** để làm tối thiểu độ trễ
     - **config servers** : lưu trữ metadata của và cấu hình cài đặt của các **cluster** . **Mongos** sử dụng các metadata này đế hướng các hoạt động đến các **shard** cụ thể .
 
-<p align=center><img src=https://i.imgur.com/FGexzbT.png width=40%></p>
+<p align=center><img src=https://i.imgur.com/FGexzbT.png width=50%></p>
 
 - **MongoDB** chia nhỏ dữ liệu ở mức **collection**, phân phối dữ liệu collection khắp các shard trong cluster .
 ### **2.2) Shard keys**
@@ -29,7 +29,7 @@
 - [Tham khảo thêm về cách lựa chọn shard key](https://docs.mongodb.com/manual/core/sharding-shard-key/#sharding-shard-key-selection)
 ### **2.4) Chunk**
 - **MongoDB** chia các sharded data ra thành các **chunk**. Mặc định **Chunk Size** là `64Mb` .
-<p align=center><img src=https://i.imgur.com/W9QWADr.png width=40%></p>
+<p align=center><img src=https://i.imgur.com/W9QWADr.png width=50%></p>
 
 ### **2.5) Balancer and Even Chunk Distribution**
 - Để phân phối đồng đều được các chunk trên tất cả các **shard** trong **cluster**, một **balancer** sẽ chạy ngầm để migrate các **chunk** trên các **shard** .
@@ -104,8 +104,7 @@
 ### **Cài đặt MongoDB**
 - **B1 :** Khai báo hostname cho các node :
     ```
-    # hostnamectl set-hostname [mongodb_{n}]
-    # bash
+    # hostnamectl set-hostname [mongodb_{n}] && bash
     ```
 - **B2 :** Khai báo file `/etc/hosts` trên các node :
     - Trên `rs1` :
@@ -127,7 +126,7 @@
 > Mô hình mang tính HA cao nhất là sử dụng cụm **replica set** có ít nhất 3 **config server** . Bài lab này chỉ trên **replica set** có 1 **config server**. 
 - **B1 :** Khai báo `clusterRole` :
     ```
-    # vi /etc/mongo.conf
+    # vi /etc/mongod.conf
     ```
     - Chỉnh sửa nội dung sau:
         ```yaml
@@ -329,9 +328,148 @@
 - **B2 :** Khác với việc khởi động MongoDB tại **Config Cluster** và **Shard Cluster**, ở **Mongos** ta sẽ khởi động bằng cầu lệnh sau :
     ```
     # mongos --config /etc/mongod.conf
+    ...
+    child process started successfully, parent exiting
     ```
 - **B3 :** Truy cập **shard cluster** :
     ```
     # mongo --host 10.5.11.108
     mongos>
+    ```
+- **B4 :** Thêm các **shard** vào **shard cluster** :
+    ```
+    mongos> sh.addShard("rs1/10.5.11.101:27017")
+    mongos> sh.addShard("rs1/10.5.11.102:27017")
+    mongos> sh.addShard("rs1/10.5.11.103:27017")
+    ```
+    ```
+    mongos> sh.addShard("rs2/10.5.11.104:27017")
+    mongos> sh.addShard("rs2/10.5.11.105:27017")
+    mongos> sh.addShard("rs2/10.5.11.106:27017")
+    ```
+- **B5 :** Kiểm tra lại trạng thái **shard cluster** :
+    ```
+    mongos> sh.status()
+    --- Sharding Status ---
+    sharding version: {
+            "_id" : 1,
+            "minCompatibleVersion" : 5,
+            "currentVersion" : 6,
+            "clusterId" : ObjectId("5f8fe7ce44eb53335cff552c")
+    }
+    shards:
+            {  "_id" : "rs1",  "host" : "rs1/10.5.11.101:27017,10.5.11.102:27017,10.5.11.103:27017",  "state" : 1 }
+            {  "_id" : "rs2",  "host" : "rs2/10.5.11.104:27017,10.5.11.105:27017,10.5.11.106:27017",  "state" : 1 }
+    active mongoses:
+            "4.4.1" : 1
+    autosplit:
+            Currently enabled: yes
+    balancer:
+            Currently enabled:  yes
+            Currently running:  no
+            Failed balancer rounds in last 5 attempts:  0
+            Migration Results for the last 24 hours:
+                    No recent migrations
+    databases:
+            {  "_id" : "config",  "primary" : "config",  "partitioned" : true }
+    ```
+    - Kết quả cho thấy: 
+        - **Shard cluster** chứa 2 **shard** là `rs1` và `rs2`
+        - Balancer đã kích hoạt
+        - 1 database mặc định là `config` đã được đồng bộ từ **config cluster** xuống các **shard**. Cụ thể :
+            - Database `config` ban đầu của các **shard** :
+                ```
+                rs1:PRIMARY> show collections
+                system.indexBuilds
+                system.sessions
+                transactions
+                ```
+            - Database `config` của **Config Cluster** :
+                ```
+                replconfig:PRIMARY> show collections
+                chunks
+                lockpings
+                locks
+                migrations
+                shards
+                system.indexBuilds
+                system.sessions
+                tags
+                transactions
+                version
+                ```
+            - Database `config` của **shard** sau khi được add vào **Shard Cluster** :
+                ```
+                rs1:PRIMARY> show collections
+                cache.chunks.config.system.sessions
+                cache.collections
+                cache.databases
+                migrationCoordinators
+                rangeDeletions
+                system.indexBuilds
+                system.sessions
+                transactions
+                ```
+        - Block `databases` chứa thông tin các database cùng số lượng các **chunk** được chia vào các **shard** trong **shard cluster**
+### **Test**
+- **B1 :** Tạo database :
+    ```
+    > sh.enableSharding("mydb")
+    ```
+- **B2 :** Tạo collection cùng **sharding key** :
+    ```
+    > sh.shardCollection("mydb.users", {"username": "hashed"})
+    ```
+    > Nếu không tại shard key ở bước này thì toàn bộ collection sẽ được lưu local trong database `test` trong **primary shard**
+- **B3 :** Insert `2.000` record vào trong collection :
+    ```
+    > for(var i = 0; i < 2000; i++) {
+        db.users.insert({
+            stt: i,
+            username: 'user' + i,
+            age: Math.floor(Math.random() * 100)
+        });
+    }
+    ```
+- **B4 :** Kiểm tra lại trạng thái của **shard cluster** :
+    ```
+    > sh.status()
+    --- Sharding Status ---
+    ...
+    shards:
+            {  "_id" : "rs1",  "host" : "rs1/10.5.11.101:27017,10.5.11.102:27017,10.5.11.103:27017",  "state" : 1 }
+            {  "_id" : "rs2",  "host" : "rs2/10.5.11.104:27017,10.5.11.105:27017,10.5.11.106:27017",  "state" : 1 }
+    ...
+    databases:
+            {  "_id" : "config",  "primary" : "config",  "partitioned" : true }
+                    config.system.sessions
+                            shard key: { "_id" : 1 }
+                            unique: false
+                            balancing: true
+                            chunks:
+                                    rs1     512
+                                    rs2     512
+                            too many chunks to print, use verbose if you want to force print
+            {  "_id" : "mydb",  "primary" : "rs2",  "partitioned" : true,  "version" : {  "uuid" : UUID("e6b60a3c-56b7-4be0-8ff7-4d1be76b271d"),  "lastMod" : 1 } }
+                    mydb.users
+                            shard key: { "username" : "hashed" }
+                            unique: false
+                            balancing: true
+                            chunks:
+                                    rs1     2
+                                    rs2     2
+                            { "username" : { "$minKey" : 1 } } -->> { "username" : NumberLong("-4611686018427387902") } on : rs1 Timestamp(1, 0)
+                            { "username" : NumberLong("-4611686018427387902") } -->> { "username" : NumberLong(0) } on : rs1 Timestamp(1, 1)
+                            { "username" : NumberLong(0) } -->> { "username" : NumberLong("4611686018427387902") } on : rs2 Timestamp(1, 2)
+                            { "username" : NumberLong("4611686018427387902") } -->> { "username" : { "$maxKey" : 1 } } on : rs2 Timestamp(1, 3)
+    ```
+    > Ta thấy số **chunk** đã được chia đều trên các **shard**
+- **B5 :** Kiểm tra số document trên các **shard** :
+    ```
+    rs1:PRIMARY> db.users.count()
+    1000
+    ```
+    ```
+    rs2:PRIMARY> db.users.count()
+    1000
     ```
