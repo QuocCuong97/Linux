@@ -411,7 +411,7 @@
                 transactions
                 ```
         - Block `databases` chứa thông tin các database cùng số lượng các **chunk** được chia vào các **shard** trong **shard cluster**
-### **Test**
+### **Tạo database và kiểm tra**
 - **B1 :** Tạo database :
     ```
     > sh.enableSharding("mydb")
@@ -473,3 +473,10 @@
     rs2:PRIMARY> db.users.count()
     1000
     ```
+    ```
+    mongos> db.users.count()
+    2000
+    ```
+### **Thêm mongos**
+- Quá trình thêm **mongos** là vô cùng đơn giản. **Mongos** chỉ được coi như một driver để truy cập vào **sharding cluster**.
+- Miễn là cụm **config cluster** không bị down, chỉ cần setup đến bước kết nối `configDB` là **mongos** có thể hoàn toàn truy cập **sharding cluster** đã tạo ra trước đó một cách bình thường .
