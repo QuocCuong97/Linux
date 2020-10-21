@@ -99,7 +99,7 @@
 - [Tham khảo thêm](https://docs.mongodb.com/manual/reference/command/shardCollection/#dbcmd.shardCollection)
 ## **3) Deploy Sharded Cluster**
 ### **Mô hình**
-<img src=https://i.imgur.com/yCKlNex.png>
+<img src=https://i.imgur.com/KIn1p14.png>
 
 ### **Cài đặt MongoDB**
 - **B1 :** Khai báo hostname cho các node :
@@ -124,8 +124,8 @@
         ```
 - **B3 :** Cài đặt **MongoDB `4.4`** trên tất cả các node. [Tham khảo](https://github.com/QuocCuong97/Linux/blob/master/docs/Services/MONGODB/02_Installation.md)
 ### **Cấu hình ConfigServer**
-> Mô hình mang tính HA cao nhất là có cụm ít nhất 3 **ConfigServer** tạo thành 1 replica set. Bài lab này sẽ chỉ lab trên **Standalone**
-- **B1 :** Khai báo clusterRole :
+> Mô hình mang tính HA cao nhất là sử dụng cụm **replica set** có ít nhất 3 **config server** . Bài lab này chỉ trên **replica set** có 1 **config server**. 
+- **B1 :** Khai báo `clusterRole` :
     ```
     # vi /etc/mongo.conf
     ```
@@ -133,8 +133,11 @@
         ```yaml
         ...
         net:
-            bindIp: localhost,<hostname(s)|ip address(es)>
+            bindIp: localhost,10.5.11.107
         ...
+        replication:
+            replSetName: "replconfig"
+
         sharding:
             clusterRole: configsvr
         ...
@@ -142,6 +145,30 @@
 - **B2 :** Khởi động lại dịch vụ `mongod` :
     ```
     # systemctl restart mongod
+    ```
+- **B3 :** Khởi động **replica set** :
+    ```
+    # mongo
+    > rs.initiate()
+    ```
+- **B4 :** Kiểm tra lại member trong **replica set** :
+    ```
+    replconfig:PRIMARY> rs.status()
+    {
+            "set" : "replconfig",
+            ......
+            "members" : [
+                    {
+                            "_id" : 0,
+                            "name" : "10.5.11.107:27017",
+                            "health" : 1,
+                            "state" : 1,
+                            "stateStr" : "PRIMARY",
+                            ....
+                    },
+            ],
+            ....
+    }
     ```
 ### **Cấu hình các Shard (các Replica Set)**
 - Cấu hình **`rs1`** (trên các node `mongodb_1`, `mongodb_2`, `mongodb_3`)
@@ -273,4 +300,38 @@
         }
         ```
 ### **Cấu hình Mongos**
-- **B1 :**
+- **B1 :** Stop dịch vụ `mongod` :
+    ```
+    # systemctl stop mongod
+    ```
+- **B1 :** Khai báo `configDB` :
+    ```
+    # vi /etc/mongo.conf
+    ```
+    - Chỉnh sửa nội dung sau:
+        ```yaml
+        # Where and how to store data.
+        #storage:
+        #  dbPath: /var/lib/mongo
+        #  journal:
+        #    enabled: true
+        #  engine:
+        #  wiredTiger:
+        ...
+        net:
+            bindIp: localhost,10.5.11.108
+        ...
+        sharding:
+            configDB: replconfig/10.5.11.107:27017
+        ...
+        ```
+        > Comment lại block `storage`
+- **B2 :** Khác với việc khởi động MongoDB tại **Config Cluster** và **Shard Cluster**, ở **Mongos** ta sẽ khởi động bằng cầu lệnh sau :
+    ```
+    # mongos --config /etc/mongod.conf
+    ```
+- **B3 :** Truy cập **shard cluster** :
+    ```
+    # mongo --host 10.5.11.108
+    mongos>
+    ```
