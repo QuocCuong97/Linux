@@ -17,4 +17,9 @@
     ```
     # systemctl status redis
     ```
-- **B
+    <img src=https://i.imgur.com/oURu3nk.png>
+- **B5 :** Kiểm tra phiên bản đã cài đặt :
+    ```
+    # redis-server --version
+    ```
+    <img src=https://i.imgur.com/xXUV2Ej.png>
