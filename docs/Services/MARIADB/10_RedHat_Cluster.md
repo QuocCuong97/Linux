@@ -32,6 +32,20 @@
         ```
         # systemctl stop mariadb
         ```
+    - Mở các port `3306`, `4567`, `4568`, `4444` trên các node :
+        ```
+        # firewall-cmd --zone=public --permanent --add-port=3306/tcp
+        # firewall-cmd --zone=public --permanent --add-port=4567/tcp
+        # firewall-cmd --zone=public --permanent -–add-port=4568/tcp
+        # firewall-cmd --zone=public --permanent –-add-port=4444/tcp
+        # firewall-cmd --reload
+        ```
+        - Trong đó :
+            - Port `3306` là port mặc định cho kết nối MySQL client và 
+        State Snapshot Transfer sử dụng `mysqldump` để backup.
+            - Port `4567` dành cho traffic Galera Cluster Replication. Multicast replication sử dụng cả TCP và UDP để chuyển gói tin trên port này.
+            - Port `4568` được sử dụng cho Incremental State Transfer.
+            - Port `4444` được sử dụng cho các State Snapshot Transfer khác.
 - Trên `node_1`, chỉnh sửa nội dung file cấu hình `/etc/my.cnf.d/server.cnf` thành như sau :
     ```
     [server]
@@ -122,12 +136,10 @@
     ```
     # galera_new_cluster
     # systemctl start mariadb
-    # systemctl enable mariadb
     ```
 - Khởi động lại dịch vụ `mariadb` trên `node_2` và `node_3` :
     ```
     # systemctl start mariadb
-    # systemctl enable mariadb
     ```
 - Kiểm tra lại trạng thái cluster ở `node_1` :
     ```
@@ -138,5 +150,3 @@
     | wsrep_cluster_size | 3     |
     +--------------------+-------+
     ```
-
-<img src=https://i.imgur.com/VFPKsJo.png>

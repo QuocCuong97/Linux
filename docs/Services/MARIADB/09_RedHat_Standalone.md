@@ -55,7 +55,7 @@
 
         <img src=https://i.imgur.com/Gg8l7bM.png>
 
-    - Tại tùy `Change the root password` , chọn `Y` để đổi mật khẩu user `root` :
+    - Tại tùy chọn `Change the root password` , chọn `Y` để đổi mật khẩu user `root` :
 
         <img src=https://i.imgur.com/2hUBrZQ.png>
 
