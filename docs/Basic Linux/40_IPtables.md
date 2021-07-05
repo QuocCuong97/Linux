@@ -47,15 +47,16 @@
     ```
     # systemctl status iptables
     ```
+    <img src=https://i.imgur.com/orRHKsx.png>
 - **B7 :** Hiển thị các rule đang có :
     ```
-    # iptables -nL
+    # iptables -L -v
     ```
 ## **3) Cách quản lý của IPtables**
 ### **3.1) Các cấu hình của IPtables**
-- `INPUT`: quản lý, cấp phép cho các kết nối từ bên ngoài vào server Linux. Ví dụ như kết nối đến SSH port `22`, kết nối Web port `80`, `443`.
-- `FORWARD`: Tất cả các gói cần định tuyến và không gửi đến nội bộ đều phải thông qua rule này.
-- `OUTPUT`: quản lý cho phép các gói tin ra đi ra từ server đến các server khác.
+- `INPUT`: lọc gói khi đi vào trong server.
+- `FORWARD`: lọc gói khi đi đến các server khác.
+- `OUTPUT`: lọc gói khi ra khỏi server.
 ### **3.2) Các action thông dụng**
 - `ACCEPT`: cho phép kết nối
 - `DROP`: kết nối sẽ bị chặn và không có bất kì phản hồi nào cho server gửi đến. Thường được áp dụng cho các IP có hành động tấn công server. Cho các server đó biết là IP này không phản hồi như các IP không tồn tại.
@@ -107,8 +108,16 @@
 ### **4.3) Xem lại các rule đã cấu hình**
 - Xem lại các rule đã cấu hình bằng lệnh sau:
     ```
-    iptables –L
+    iptables –L -v
     ```
+    <img src=https://i.imgur.com/Bw9Wl37.png>
+
+    - Trong đó:
+        - `target` : action sẽ thực thi cho mỗi chuỗi quy tắc
+        - `prot` - protocol: các giao thức sẽ được áp dụng để thực thi các target. Có 3 lựa chọn gồm `all`, `tcp`, `udp`. Các ứng dụng như `SSH`, `FTP`, `sFTP`,... đều sử dụng `tcp`.
+        - `in`: thiết bị mạng nhận kết nối vào được áp dụng cho quy tắc, chẳng hạn như `lo`, `eth0`, `eth1`.
+        - `out` : thiết bị mạng phục vụ nhu cầu gửi kết nối ra ngoài được áp dụng quy tắc.
+        - `destination` : địa chỉ đích được áp dụng quy tắc
 - Nếu muốn xóa tất cả các cấu hình để làm lại thì ta gõ lệnh sau:
     ```
     iptables -F
@@ -117,6 +126,7 @@
 - Sau khi đã cấu hình xong các port mở chặn ta tiến hành lưu các rule đã cấu hình vào file.
     ```
     service iptables save
+    service iptables restart
     ```
     - Các rule sẽ được lưu vào file: `/etc/sysconfig/iptables`
 - Có thể sử dụng lệnh sau để lưu ra một file backup :
@@ -149,3 +159,6 @@
         -A INPUT -s 14.115.112.45/32 -j ACCEPT
         ```
         trong đó 14.115.112.45 là máy dự phòng để bạn có thể access vào máy chủ khi mà IP thứ nhất bị cấm.
+-----------
+Tìm hiểu thêm :
+- https://wiki.matbao.net/kb/bao-mat-may-chu-linux-huong-dan-cau-hinh-iptables-can-ban/
